@@ -32,12 +32,27 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
+            if (users.Exists((u) => u.Id == user.Id))
+            {
+                throw new ArgumentException("User with this id is already exists", nameof(user));
+            }
+
             if (string.IsNullOrWhiteSpace(user.FirstName))
             {
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
             }
 
-            // TODO: Implement Add() method and all other validation rules.
+            if (string.IsNullOrWhiteSpace(user.LastName))
+            {
+                throw new ArgumentException("LastName is null or empty or whitespace", nameof(user));
+            }
+
+            if (user.Age < 0)
+            {
+                throw new ArgumentException("Age is negative", nameof(user));
+            }
+
+            users.Add(user);
         }
 
         /// <summary>
