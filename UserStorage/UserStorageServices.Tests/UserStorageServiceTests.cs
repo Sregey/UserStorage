@@ -1,43 +1,28 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace UserStorageServices.Tests
 {
-    [TestClass]
     public class UserStorageServiceTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Add_NullAsUserArgument_ExceptionThrown()
+        public IEnumerable<TestCaseData> InvalidUsers
         {
-            // Arrange
-            var userStorageService = new UserStorageService();
-
-            // Act
-            userStorageService.Add(null);
-
-            // Assert - [ExpectedException]
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Add_UserFirstNameIsNull_ExceptionThrown()
-        {
-            // Arrange
-            var userStorageService = new UserStorageService();
-            
-            // Act
-            userStorageService.Add(new User
+            get
             {
-                FirstName = null
-            });
-
-            // Assert - [ExpectedException]
+                yield return new TestCaseData(null).Throws(typeof(ArgumentNullException));
+                yield return new TestCaseData(new User {FirstName = null}).Throws(typeof(ArgumentException));
+            }
         }
 
-        [TestMethod]
-        public void Remove_WithoutArguments_NothingHappen()
+    [Test,TestCaseSource("InvalidUsers")]
+    public static void Add(User user)
         {
+            // Arrange
+            var userStorageService = new UserStorageService();
+
+            // Act
+            userStorageService.Add(user);
         }
     }
 }

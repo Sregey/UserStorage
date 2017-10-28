@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorageApp", "UserStora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorageServices", "UserStorageServices\UserStorageServices.csproj", "{3C5E56F6-E2F8-4E49-A68C-707934F04350}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorageServices.Tests", "UserStorageServices.Tests\UserStorageServices.Tests.csproj", "{E439739B-8F5A-4048-B153-F9F75F5820CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceConfigurationSection", "ServiceConfigurationSection\ServiceConfigurationSection.csproj", "{527B8CA4-574A-4234-8918-73CDC992B3DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorage.Diagnostics", "UserStorage.Diagnostics\UserStorage.Diagnostics.csproj", "{B8200D5B-C426-4B6B-A955-B11B42D2EE59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorageMonitor", "UserStorageMonitor\UserStorageMonitor.csproj", "{9CDBA7DD-8891-4B0D-8AB4-82895B20565C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorageServices.Tests", "UserStorageServices.Tests\UserStorageServices.Tests.csproj", "{00A1FAEA-05FB-4463-A190-1FB9A0A7AAF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{3C5E56F6-E2F8-4E49-A68C-707934F04350}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C5E56F6-E2F8-4E49-A68C-707934F04350}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C5E56F6-E2F8-4E49-A68C-707934F04350}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E439739B-8F5A-4048-B153-F9F75F5820CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E439739B-8F5A-4048-B153-F9F75F5820CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E439739B-8F5A-4048-B153-F9F75F5820CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E439739B-8F5A-4048-B153-F9F75F5820CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{527B8CA4-574A-4234-8918-73CDC992B3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{527B8CA4-574A-4234-8918-73CDC992B3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{527B8CA4-574A-4234-8918-73CDC992B3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{9CDBA7DD-8891-4B0D-8AB4-82895B20565C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CDBA7DD-8891-4B0D-8AB4-82895B20565C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CDBA7DD-8891-4B0D-8AB4-82895B20565C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A1FAEA-05FB-4463-A190-1FB9A0A7AAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A1FAEA-05FB-4463-A190-1FB9A0A7AAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A1FAEA-05FB-4463-A190-1FB9A0A7AAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A1FAEA-05FB-4463-A190-1FB9A0A7AAF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
