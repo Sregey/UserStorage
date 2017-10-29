@@ -44,7 +44,7 @@ namespace UserStorageServices
         {
             if (enableLogging.Enabled)
             {
-                Console.WriteLine(message);
+                Trace.WriteLine(message);
             }
         }
     }
