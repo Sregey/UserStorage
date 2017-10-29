@@ -12,11 +12,13 @@ namespace UserStorageServices
         private List<User> users;
 
         private IIdGenerator idGenerator;
+        private IUserValidator userValidator;
 
         public UserStorageService()
         {
             users = new List<User>();
             idGenerator = new IdGenerator();
+            userValidator = new UserValidator();
         }
 
         /// <summary>
@@ -36,25 +38,7 @@ namespace UserStorageServices
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-
-            if (string.IsNullOrWhiteSpace(user.FirstName))
-            {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
-            }
-
-            if (string.IsNullOrWhiteSpace(user.LastName))
-            {
-                throw new ArgumentException("LastName is null or empty or whitespace", nameof(user));
-            }
-
-            if (user.Age < 0)
-            {
-                throw new ArgumentException("Age is negative", nameof(user));
-            }
+            userValidator.Validate(user);
 
             user.Id = idGenerator.Generate();
             users.Add(user);
