@@ -1,4 +1,4 @@
-using System;
+using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Validation
 {
@@ -8,7 +8,7 @@ namespace UserStorageServices.Validation
         {
             if (user.Age < 0)
             {
-                throw new ArgumentException("Age is negative", nameof(user));
+                throw new AgeExceedsLimitsException();
             }
         }
     }

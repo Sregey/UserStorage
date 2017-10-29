@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Tests
 {
@@ -40,29 +41,29 @@ namespace UserStorageServices.Tests
         {
             get
             {
-                User user = new User();
+                User user;
 
                 yield return new TestCaseData(null).Throws(typeof(ArgumentNullException));
 
-                MakeValidUser(user);
+                user = GetValidUser();
                 user.FirstName = null;
-                yield return new TestCaseData(user).Throws(typeof(ArgumentException));
+                yield return new TestCaseData(user).Throws(typeof(FirstNameIsNullOrEmptyException));
 
-                MakeValidUser(user);
+                user = GetValidUser();
                 user.FirstName = "  ";
-                yield return new TestCaseData(user).Throws(typeof(ArgumentException));
+                yield return new TestCaseData(user).Throws(typeof(FirstNameIsNullOrEmptyException));
 
-                MakeValidUser(user);
+                user = GetValidUser();
                 user.LastName = null;
-                yield return new TestCaseData(user).Throws(typeof(ArgumentException));
+                yield return new TestCaseData(user).Throws(typeof(LastNameIsNullOrEmptyException));
 
-                MakeValidUser(user);
+                user = GetValidUser();
                 user.LastName = "   ";
-                yield return new TestCaseData(user).Throws(typeof(ArgumentException));
+                yield return new TestCaseData(user).Throws(typeof(LastNameIsNullOrEmptyException));
 
-                MakeValidUser(user);
+                user = GetValidUser();
                 user.Age = -1;
-                yield return new TestCaseData(user).Throws(typeof(ArgumentException));
+                yield return new TestCaseData(user).Throws(typeof(AgeExceedsLimitsException));
             }
         }
 
@@ -133,8 +134,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userStorageService = new UserStorageService();
-            var user = new User();
-            MakeValidUser(user);
+            var user = GetValidUser();
 
             // Act
             userStorageService.Add(user);
@@ -161,8 +161,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             int oldUserCount = userStorageService.Count;
-            var user = new User();
-            MakeValidUser(user);
+            var user = GetValidUser();
 
             // Act
             userStorageService.RemoveFirst((u) => u == user);
@@ -241,11 +240,14 @@ namespace UserStorageServices.Tests
             return users.Count();
         }
 
-        private void MakeValidUser(User user)
+        private User GetValidUser()
         {
-            user.FirstName = "FirstName1";
-            user.LastName = "LastName1";
-            user.Age = 10;
+            return new User
+            {
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Age = 10,
+            };
         }
     }
 }

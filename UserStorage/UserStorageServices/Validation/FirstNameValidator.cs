@@ -1,4 +1,4 @@
-using System;
+using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Validation
 {
@@ -8,7 +8,7 @@ namespace UserStorageServices.Validation
         {
             if (string.IsNullOrWhiteSpace(user.FirstName))
             {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
+                throw new FirstNameIsNullOrEmptyException();
             }
         }
     }
