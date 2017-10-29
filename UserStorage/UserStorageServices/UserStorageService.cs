@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UserStorageServices
 {
@@ -76,8 +76,10 @@ namespace UserStorageServices
             int i;
             for (i = 0; i < users.Count; i++)
             {
-                if (predicate(users[i])) 
+                if (predicate(users[i]))
+                {
                     break;
+                }
             }
 
             if (i < users.Count)
