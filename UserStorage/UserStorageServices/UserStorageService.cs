@@ -10,13 +10,25 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService : IUserStorageService
     {
+        private const string NOT_SUPPORTED_MESSAGE = "This service is slave";
+
+        private UserStorageServiceMode mode;
+        private IList<IUserStorageService> slaveServices;
+
         private List<User> users;
 
         private IIdGenerator idGenerator;
         private IValidator<User> userValidator;
 
-        public UserStorageService()
+        public UserStorageService(UserStorageServiceMode mode, IEnumerable<IUserStorageService> slaveServices)
         {
+            this.mode = mode;
+            if (mode == UserStorageServiceMode.MasterMode)
+            {
+                slaveServices = slaveServices ?? Enumerable.Empty<IUserStorageService>();
+                this.slaveServices = slaveServices.ToList() ;
+            }
+
             users = new List<User>();
             idGenerator = new IdGenerator();
             userValidator = new UserValidator();
@@ -34,10 +46,22 @@ namespace UserStorageServices
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            userValidator.Validate(user);
+            if (mode == UserStorageServiceMode.MasterMode)
+            {
+                userValidator.Validate(user);
 
-            user.Id = idGenerator.Generate();
-            users.Add(user);
+                user.Id = idGenerator.Generate();
+                users.Add(user);
+
+                foreach (var slaveService in slaveServices)
+                {
+                    slaveService.Add(user);
+                }
+            }
+            else
+            {
+                throw new NotSupportedException(NOT_SUPPORTED_MESSAGE);
+            }
         }
 
         /// <summary>
@@ -45,23 +69,35 @@ namespace UserStorageServices
         /// </summary>
         public void RemoveFirst(Predicate<User> predicate)
         {
-            if (predicate == null)
+            if (mode == UserStorageServiceMode.MasterMode)
             {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
-            int i;
-            for (i = 0; i < users.Count; i++)
-            {
-                if (predicate(users[i]))
+                if (predicate == null)
                 {
-                    break;
+                    throw new ArgumentNullException(nameof(predicate));
+                }
+
+                int i;
+                for (i = 0; i < users.Count; i++)
+                {
+                    if (predicate(users[i]))
+                    {
+                        break;
+                    }
+                }
+
+                if (i < users.Count)
+                {
+                    users.RemoveAt(i);
+                }
+
+                foreach (var slaveService in slaveServices)
+                {
+                    slaveService.RemoveFirst(predicate);
                 }
             }
-
-            if (i < users.Count)
+            else
             {
-                users.RemoveAt(i);
+                throw new NotSupportedException(NOT_SUPPORTED_MESSAGE);
             }
         }
 
@@ -70,12 +106,24 @@ namespace UserStorageServices
         /// </summary>
         public void RemoveAll(Predicate<User> predicate)
         {
-            if (predicate == null)
+            if (mode == UserStorageServiceMode.MasterMode)
             {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+                if (predicate == null)
+                {
+                    throw new ArgumentNullException(nameof(predicate));
+                }
 
-            users.RemoveAll(predicate);
+                users.RemoveAll(predicate);
+
+                foreach (var slaveService in slaveServices)
+                {
+                    slaveService.RemoveAll(predicate);
+                }
+            }
+            else
+            {
+                throw new NotSupportedException(NOT_SUPPORTED_MESSAGE);
+            }
         }
 
         /// <summary>

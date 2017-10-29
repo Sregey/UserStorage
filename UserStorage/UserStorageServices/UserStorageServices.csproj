@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
     <Compile Include="UserStorageServiceDecorator.cs" />
     <Compile Include="UserStorageServiceLog.cs" />
+    <Compile Include="UserStorageServiceMode.cs" />
     <Compile Include="Validation\AgeValidator.cs" />
     <Compile Include="Validation\FirstNameValidator.cs" />
     <Compile Include="IdGenerator.cs" />

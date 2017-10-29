@@ -10,8 +10,6 @@ namespace UserStorageServices.Tests
     {
         private static User[] users;
 
-        private UserStorageService userStorageService;
-
         static UserStorageServiceTests()
         {
             users = new User[]
@@ -120,22 +118,13 @@ namespace UserStorageServices.Tests
             }
         }
 
-        [SetUp]
-        public void InitUserStoreageService()
-        {
-            userStorageService = new UserStorageService();
-
-            foreach (var user in users)
-            {
-                userStorageService.Add(user);
-            }
-        }
-
         [Test, TestCaseSource("InvalidUsers")]
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageService();
+            var userStorageService = new UserStorageService(
+                UserStorageServiceMode.MasterMode, 
+                Enumerable.Empty<IUserStorageService>());
 
             // Act
             userStorageService.Add(user);
@@ -145,7 +134,9 @@ namespace UserStorageServices.Tests
         public void Add_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageService();
+            var userStorageService = new UserStorageService(
+                UserStorageServiceMode.MasterMode,
+                Enumerable.Empty<IUserStorageService>());
             var user = GetValidUser();
 
             // Act
@@ -155,10 +146,25 @@ namespace UserStorageServices.Tests
             Assert.AreEqual(1, userStorageService.Count);
         }
 
+        [Test]
+        public void Add_ValidUserToSlaveService_ExceptionThrown()
+        {
+            // Arrange
+            var userStorageService = new UserStorageService(
+                UserStorageServiceMode.SlaveMode,
+                Enumerable.Empty<IUserStorageService>());
+            var user = GetValidUser();
+
+            // Assert
+            Assert.Throws<NotSupportedException>(() => userStorageService.Add(user));
+        }
+
         [Test, TestCaseSource("UsersInStorage")]
         public void RemoveFirst_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
             // Act
@@ -172,6 +178,8 @@ namespace UserStorageServices.Tests
         public void RemoveFirst_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
             var user = GetValidUser();
 
@@ -185,14 +193,30 @@ namespace UserStorageServices.Tests
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
         public void RemoveFirst_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
+
             // Act
             userStorageService.RemoveFirst(predicate);
+        }
+
+        [TestCase(ExpectedException = typeof(NotSupportedException))]
+        public void RemoveFirst_SlaveService_ExceptionThrown()
+        {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.SlaveMode, null);
+
+            // Act
+            userStorageService.RemoveFirst((u) => true);
         }
 
         [Test, TestCaseSource("RemoveAll_Predicates")]
         public int RemoveAll_ExistingUser_RemoveSeveralUsers(Predicate<User> predicate)
         {
             // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
             // Act
@@ -206,6 +230,8 @@ namespace UserStorageServices.Tests
         public void RemoveAll_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
             // Act
@@ -218,13 +244,32 @@ namespace UserStorageServices.Tests
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
         public void RemoveAll_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
+
             // Act
             userStorageService.RemoveAll(predicate);
+        }
+
+
+        [TestCase(ExpectedException = typeof(NotSupportedException))]
+        public void RemoveAll_SlaveService_ExceptionThrown()
+        {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.SlaveMode, null);
+
+            // Act
+            userStorageService.RemoveAll((u) => true);
         }
 
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
         public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
+
             // Act
             userStorageService.Search(predicate);
         }
@@ -233,6 +278,8 @@ namespace UserStorageServices.Tests
         public void Search_NotExistingUser_FindNoUsers()
         {
             // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
             // Act
@@ -245,6 +292,10 @@ namespace UserStorageServices.Tests
         [Test, TestCaseSource("Search_Predicates")]
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
+            // Arrange
+            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            InitUserStoreageService(userStorageService);
+
             // Act
             var users = userStorageService.Search(predicate);
 
@@ -260,6 +311,14 @@ namespace UserStorageServices.Tests
                 LastName = "LastName1",
                 Age = 10,
             };
+        }
+
+        private void InitUserStoreageService(IUserStorageService userStorageService)
+        {
+            foreach (var user in users)
+            {
+                userStorageService.Add(user);
+            }
         }
     }
 }

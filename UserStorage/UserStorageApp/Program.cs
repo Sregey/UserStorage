@@ -19,7 +19,10 @@ namespace UserStorageApp
             {
                 host.SmartOpen();
 
-                var client = new Client(new UserStorageServiceLog(new UserStorageService()));
+                var storageService = new UserStorageService(
+                    UserStorageServiceMode.MasterMode,
+                    Enumerable.Empty<IUserStorageService>());
+                var client = new Client(new UserStorageServiceLog(storageService));
 
                 client.Run();
 
