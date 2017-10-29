@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageServices
 {
-    class IdGenerator : IIdGenerator
+    internal class IdGenerator : IIdGenerator
     {
         public Guid Generate()
         {

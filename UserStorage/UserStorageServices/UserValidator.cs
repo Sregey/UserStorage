@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageServices
 {
-    class UserValidator : IUserValidator
+    internal class UserValidator : IUserValidator
     {
         public void Validate(User user)
         {

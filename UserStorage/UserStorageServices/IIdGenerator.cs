@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageServices
 {
-    interface IIdGenerator
+    internal interface IIdGenerator
     {
         Guid Generate();
     }

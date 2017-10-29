@@ -1,6 +1,6 @@
 namespace UserStorageServices
 {
-    interface IUserValidator
+    internal interface IUserValidator
     {
         void Validate(User user);
     }
