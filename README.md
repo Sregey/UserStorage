@@ -141,7 +141,7 @@ The [class diagram](http://www.uml-diagrams.org/class-diagrams-overview.html) be
 ![Client and UserStorageService](images/ClientAndServiceBeginning.png "Client and UserStorageService")
 
 
-- [ ] [Create a new branch](https://git-scm.com/book/ru/v1/Ветвление-в-Git-Основы-ветвления-и-слияния) with name "step1", and switch to this branch. Make sure that you are on "step1" branch before continue.
+- [x] [Create a new branch](https://git-scm.com/book/ru/v1/Ветвление-в-Git-Основы-ветвления-и-слияния) with name "step1", and switch to this branch. Make sure that you are on "step1" branch before continue.
 
 ```sh
 $ git checkout -b step1
@@ -150,26 +150,26 @@ $ git branch
 * step1
 ```
 
-- [ ] Add a new _Id_ field to the _User_ class. Use System.Guid as a field type. The field value should uniquely identify a user in the storage. Review changes. Commit changes.
+- [x] Add a new _Id_ field to the _User_ class. Use System.Guid as a field type. The field value should uniquely identify a user in the storage. Review changes. Commit changes.
 
-- [ ] Add an internal storage to _UserStorageService_ class. Consider collections from [System.Collections.Generic](https://msdn.microsoft.com/en-us/library/system.collections.generic(v=vs.110).aspx) namespace. A new identifier should be populated and assigned to each new entity before adding it to a collection. Implement Count property getter to return the amount of users in the storage. Review and commit.
+- [x] Add an internal storage to _UserStorageService_ class. Consider collections from [System.Collections.Generic](https://msdn.microsoft.com/en-us/library/system.collections.generic(v=vs.110).aspx) namespace. A new identifier should be populated and assigned to each new entity before adding it to a collection. Implement Count property getter to return the amount of users in the storage. Review and commit.
 
-- [ ] _UserStorageService_ class contains Add() method that adds a new user to the storage. The method has one guard clause and one validation statement. Tests for the methods of the class are located in _UserStorageServiceTests_ class. Think what more validation rules you can add here. Add tests for those rules, and then write code to implement them.
+- [x] _UserStorageService_ class contains Add() method that adds a new user to the storage. The method has one guard clause and one validation statement. Tests for the methods of the class are located in _UserStorageServiceTests_ class. Think what more validation rules you can add here. Add tests for those rules, and then write code to implement them.
 
 Test-First: add use cases in form of tests to _UserStorageServiceTests_ class (**red** tests), and only then add implementation to the Add method (make your tests **green**).
 
 Review and commit.
 
-- [ ] Test-First: add use cases (red) and then add an implementation for Remove method (green). Review. Commit.
+- [x] Test-First: add use cases (red) and then add an implementation for Remove method (green). Review. Commit.
 
-- [ ] Test-First: add use cases (red) and then add an implementation for Search method (green). Use cases:
+- [x] Test-First: add use cases (red) and then add an implementation for Search method (green). Use cases:
   * Search by FirstName.
   * Search by LastName.
   * Search by Age.
 
 Review and commit.
 
-- [ ] Add a new bool field _IsLoggingEnabled_ to _UserStorageService_ class, and add logging functionality to Add method:
+- [x] Add a new bool field _IsLoggingEnabled_ to _UserStorageService_ class, and add logging functionality to Add method:
 
 ```cs
 if (IsLoggingEnabled)
@@ -180,7 +180,7 @@ if (IsLoggingEnabled)
 
 Add logging to Remove and Search methods too. Review and commit.
 
-- [ ] Run StyleCop to make sure the code you have added fits defined code standards. Fix all code issues StyleCop identified. Review and commit.
+- [x] Run StyleCop to make sure the code you have added fits defined code standards. Fix all code issues StyleCop identified. Review and commit.
 
 ```sh
 $ git status
@@ -188,7 +188,7 @@ $ git diff
 $ git commit -m "Fix StyleCop issues."
 ```
 
-- [ ] Mark all completed items in README.md. Review and commit.
+- [x] Mark all completed items in README.md. Review and commit.
 
 - Publish "step1" branch to [remote branch](https://git-scm.com/book/ru/v2/Ветвление-в-Git-Удалённые-ветки) on github.
 
