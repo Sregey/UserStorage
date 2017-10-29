@@ -19,7 +19,16 @@ namespace UserStorageApp
             {
                 host.SmartOpen();
 
-                var client = new Client(new UserStorageServiceLog(new UserStorageService()));
+                var slaveServices = new IUserStorageService[]
+                {
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
+                };
+
+                var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
+
+                var storageService = new UserStorageServiceMaster(subscribers);
+                var client = new Client(new UserStorageServiceMasterLog(storageService));
 
                 client.Run();
 

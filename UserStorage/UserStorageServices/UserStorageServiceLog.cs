@@ -4,11 +4,12 @@ using System.Diagnostics;
 
 namespace UserStorageServices
 {
-    public class UserStorageServiceLog : UserStorageServiceDecorator
+    public abstract class UserStorageServiceLog<T> : UserStorageServiceDecorator<T>
+        where T : IUserStorageService
     {
         private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
 
-        public UserStorageServiceLog(IUserStorageService userStorageService)
+        protected UserStorageServiceLog(IUserStorageService userStorageService)
             : base(userStorageService)
         {
         }

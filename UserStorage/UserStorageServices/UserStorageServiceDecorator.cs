@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace UserStorageServices
 {
-    public abstract class UserStorageServiceDecorator : IUserStorageService
+    public abstract class UserStorageServiceDecorator<T> : IUserStorageService
+        where T : IUserStorageService
     {
-        protected readonly IUserStorageService UserStorageService;
+        protected readonly T UserStorageService;
 
         protected UserStorageServiceDecorator(IUserStorageService userStorageService)
         {
-            UserStorageService = userStorageService;
+            UserStorageService = (T)userStorageService;
         }
 
         public abstract int Count { get; }
