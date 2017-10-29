@@ -8,35 +8,35 @@ namespace UserStorageServices
     {
         private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
 
-        public override int Count => userStorageService.Count;
-
         public UserStorageServiceLog(IUserStorageService userStorageService)
             : base(userStorageService)
         {
         }
 
+        public override int Count => UserStorageService.Count;
+
         public override void Add(User user)
         {
-            userStorageService.Add(user);
-            Log("Add() method is called.");
+            UserStorageService.Add(user);
+            this.Log("Add() method is called.");
         }
 
         public override void RemoveFirst(Predicate<User> predicate)
         {
-            userStorageService.RemoveFirst(predicate);
-            Log("RemoveFirst() method is called.");
+            UserStorageService.RemoveFirst(predicate);
+            this.Log("RemoveFirst() method is called.");
         }
 
         public override void RemoveAll(Predicate<User> predicate)
         {
-            userStorageService.RemoveAll(predicate);
-            Log("RemoveAll() method is called.");
+            UserStorageService.RemoveAll(predicate);
+            this.Log("RemoveAll() method is called.");
         }
 
         public override IEnumerable<User> Search(Predicate<User> predicate)
         {
-            var users = userStorageService.Search(predicate);
-            Log("Search() method is called.");
+            var users = UserStorageService.Search(predicate);
+            this.Log("Search() method is called.");
             return users;
         }
 

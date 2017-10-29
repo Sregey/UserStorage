@@ -5,11 +5,11 @@ namespace UserStorageServices
 {
     public abstract class UserStorageServiceDecorator : IUserStorageService
     {
-        protected readonly IUserStorageService userStorageService;
+        protected readonly IUserStorageService UserStorageService;
 
         protected UserStorageServiceDecorator(IUserStorageService userStorageService)
         {
-            this.userStorageService = userStorageService;
+            UserStorageService = userStorageService;
         }
 
         public abstract int Count { get; }

@@ -2,7 +2,7 @@ using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Validation
 {
-    class FirstNameValidator : IValidator<User>
+    internal class FirstNameValidator : IValidator<User>
     {
         public void Validate(User user)
         {
