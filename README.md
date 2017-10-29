@@ -269,9 +269,9 @@ Run tests, review and commit.
 
 ## Step 3 - Compose and decorate
 
-- [ ] New branch "step3".
+- [x] New branch "step3".
 
-- [ ] Composite validator.
+- [x] Composite validator.
   * Refactor your class that validates user data to extract validation logic for each validation rule to a separate class.
   * Use [Composite design pattern](https://refactoring.guru/design-patterns/composite) to create a composite validator.
 
@@ -279,11 +279,11 @@ Run tests, review and commit.
 
 Run tests, review and commit.
 
-- [ ] Validation exceptions. Create a custom exception for each validation case. Examples: FirstNameIsNullOrEmptyException, LastNameExceedsLimitsException, AgeExceedsLimitsException. Each validator rule class should throw its own exception. Modify tests.
+- [x] Validation exceptions. Create a custom exception for each validation case. Examples: FirstNameIsNullOrEmptyException, LastNameExceedsLimitsException, AgeExceedsLimitsException. Each validator rule class should throw its own exception. Modify tests.
 
 Run tests, review and commit.
 
-- [ ] Extended search functionality. Add new functionality to your Search method for supporting these use cases:
+- [x] Extended search functionality. Add new functionality to your Search method for supporting these use cases:
   * Search by FirstName and LastName.
   * Search by FirstName and Age.
   * Search by LastName and Age.
@@ -291,7 +291,7 @@ Run tests, review and commit.
 
 Add new tests. Run tests, review and commit.
 
-- [ ] Extract logging functionality.
+- [x] Extract logging functionality.
   * Extract Class: extract logging functionality to a separate class that inherits _IUserStorageService_ interface.
   * Use [Decorator design pattern](https://refactoring.guru/design-patterns/decorator) to create a log decorator.
   * Make _UserStorageServiceDecorator_ class abstract.
@@ -301,7 +301,7 @@ Add new tests. Run tests, review and commit.
 
 Run tests, review and commit.
 
-- [ ] Refactor _UserStorageServiceLog_ to use [Trace Listeners](https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/trace-listeners) to log all _UserStorageService_ method calls.
+- [x] Refactor _UserStorageServiceLog_ to use [Trace Listeners](https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/trace-listeners) to log all _UserStorageService_ method calls.
   * Configure [TextWriterTraceListener](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.textwritertracelistener) [by using a configuration file](https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/how-to-create-and-initialize-trace-listeners).
   * Replace Console.WriteLine method calls with appropriate Debug or Trace methods.
   * Add more listeners to the App.config to support console, XML and CSV output.
@@ -309,7 +309,7 @@ Run tests, review and commit.
 
 Run tests, review and commit.
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step3". Merge "step3" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step3". Merge "step3" into master. Publish.
 
 
 ## Step 4 - Master-Slave
