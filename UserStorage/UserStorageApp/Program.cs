@@ -21,14 +21,14 @@ namespace UserStorageApp
 
                 var slaveServices = new IUserStorageService[]
                 {
-                    new UserStorageServiceLog(new UserStorageService(UserStorageServiceMode.SlaveMode, null)),
-                    new UserStorageServiceLog(new UserStorageService(UserStorageServiceMode.SlaveMode, null)),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
                 };
 
-                var storageService = new UserStorageService(
-                    UserStorageServiceMode.MasterMode,
-                    slaveServices);
-                var client = new Client(new UserStorageServiceLog(storageService));
+                var subscribers = slaveServices.Select((s) => (INotificationSubscriber) s);
+
+                var storageService = new UserStorageServiceMaster(subscribers);
+                var client = new Client(new UserStorageServiceMasterLog(storageService));
 
                 client.Run();
 

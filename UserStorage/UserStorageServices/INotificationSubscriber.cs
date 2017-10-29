@@ -2,8 +2,8 @@ namespace UserStorageServices
 {
     public interface INotificationSubscriber
     {
-        void UserAdded(User user);
+        void UserAdded(object sender, UserStorageModifiedEventArgs args);
 
-        void UserRemoved(User user);
+        void UserRemoved(object sender, UserStorageModifiedEventArgs args);
     }
 }

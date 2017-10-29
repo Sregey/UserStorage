@@ -4,11 +4,12 @@ using System.Diagnostics;
 
 namespace UserStorageServices
 {
-    public class UserStorageServiceLog : UserStorageServiceDecorator
+    public abstract class UserStorageServiceLog<T> : UserStorageServiceDecorator<T>
+        where T : IUserStorageService
     {
         private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
 
-        public UserStorageServiceLog(IUserStorageService userStorageService)
+        protected UserStorageServiceLog(IUserStorageService userStorageService)
             : base(userStorageService)
         {
         }
@@ -38,16 +39,6 @@ namespace UserStorageServices
             var users = UserStorageService.Search(predicate);
             this.Log("Search() method is called.");
             return users;
-        }
-
-        public override void UserAdded(User user)
-        {
-            UserStorageService.UserAdded(user);
-        }
-
-        public override void UserRemoved(User user)
-        {
-            UserStorageService.UserRemoved(user);
         }
 
         private void Log(string message)

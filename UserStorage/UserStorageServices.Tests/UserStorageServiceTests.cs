@@ -122,9 +122,7 @@ namespace UserStorageServices.Tests
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageService(
-                UserStorageServiceMode.MasterMode, 
-                null);
+            var userStorageService = new UserStorageServiceMaster(null);
 
             // Act
             userStorageService.Add(user);
@@ -134,9 +132,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageService(
-                UserStorageServiceMode.MasterMode,
-                null);
+            var userStorageService = new UserStorageServiceMaster(null);
             var user = GetValidUser();
 
             // Act
@@ -150,9 +146,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUserToSlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageService(
-                UserStorageServiceMode.SlaveMode,
-                null);
+            var userStorageService = new UserStorageServiceSlave();
             var user = GetValidUser();
 
             // Assert
@@ -163,7 +157,7 @@ namespace UserStorageServices.Tests
         public void RemoveFirst_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -178,7 +172,7 @@ namespace UserStorageServices.Tests
         public void RemoveFirst_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
             var user = GetValidUser();
@@ -194,7 +188,7 @@ namespace UserStorageServices.Tests
         public void RemoveFirst_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -205,7 +199,7 @@ namespace UserStorageServices.Tests
         public void RemoveFirst_SlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.SlaveMode, null);
+            var userStorageService = new UserStorageServiceSlave();
 
             // Act
             userStorageService.RemoveFirst((u) => true);
@@ -215,7 +209,7 @@ namespace UserStorageServices.Tests
         public int RemoveAll_ExistingUser_RemoveSeveralUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -230,7 +224,7 @@ namespace UserStorageServices.Tests
         public void RemoveAll_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -245,7 +239,7 @@ namespace UserStorageServices.Tests
         public void RemoveAll_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -257,7 +251,7 @@ namespace UserStorageServices.Tests
         public void RemoveAll_SlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.SlaveMode, null);
+            var userStorageService = new UserStorageServiceSlave();
 
             // Act
             userStorageService.RemoveAll((u) => true);
@@ -267,7 +261,7 @@ namespace UserStorageServices.Tests
         public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -278,7 +272,7 @@ namespace UserStorageServices.Tests
         public void Search_NotExistingUser_FindNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
@@ -293,7 +287,7 @@ namespace UserStorageServices.Tests
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageService(UserStorageServiceMode.MasterMode, null);
+            var userStorageService = new UserStorageServiceMaster(null);
             InitUserStoreageService(userStorageService);
 
             // Act
