@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace UserStorageServices
 {
-    class UserStorageServiceLog : UserStorageServiceDecorator
+    public class UserStorageServiceLog : UserStorageServiceDecorator
     {
         private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
 
