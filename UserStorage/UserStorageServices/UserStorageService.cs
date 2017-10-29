@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace UserStorageServices
@@ -7,13 +8,20 @@ namespace UserStorageServices
     /// <summary>
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.
     /// </summary>
-    public class UserStorageService
+    public class UserStorageService : IUserStorageService
     {
+        private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
+
         private List<User> users;
+
+        private IIdGenerator idGenerator;
+        private IUserValidator userValidator;
 
         public UserStorageService()
         {
             users = new List<User>();
+            idGenerator = new IdGenerator();
+            userValidator = new UserValidator();
         }
 
         /// <summary>
@@ -23,41 +31,14 @@ namespace UserStorageServices
         public int Count => users.Count;
 
         /// <summary>
-        /// Determines is logging enabled. 
-        /// </summary>
-        public bool IsLoggingEnabled { get; set; }
-
-        /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
+            userValidator.Validate(user);
 
-            if (users.Exists((u) => u.Id == user.Id))
-            {
-                throw new ArgumentException("User with this id is already exists", nameof(user));
-            }
-
-            if (string.IsNullOrWhiteSpace(user.FirstName))
-            {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
-            }
-
-            if (string.IsNullOrWhiteSpace(user.LastName))
-            {
-                throw new ArgumentException("LastName is null or empty or whitespace", nameof(user));
-            }
-
-            if (user.Age < 0)
-            {
-                throw new ArgumentException("Age is negative", nameof(user));
-            }
-
+            user.Id = idGenerator.Generate();
             users.Add(user);
 
             Log("Add() method is called.");
@@ -122,7 +103,7 @@ namespace UserStorageServices
 
         private void Log(string message)
         {
-            if (IsLoggingEnabled)
+            if (enableLogging.Enabled)
             {
                 Console.WriteLine(message);
             }

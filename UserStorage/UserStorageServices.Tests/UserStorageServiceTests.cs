@@ -17,21 +17,18 @@ namespace UserStorageServices.Tests
             {
                 new User
                 {
-                    Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Age = 10,
                 },
                 new User
                 {
-                    Id = new Guid("00000000-0000-0000-0000-000000000002"),
                     FirstName = "FirstName2",
                     LastName = "LastName2",
                     Age = 20,
                 },
                 new User
                 {
-                    Id = new Guid("00000000-0000-0000-0000-000000000003"),
                     FirstName = "FirstName1",
                     LastName = "LastName2",
                     Age = 15,
@@ -146,20 +143,6 @@ namespace UserStorageServices.Tests
             Assert.AreEqual(1, userStorageService.Count);
         }
 
-        [Test]
-        public void Add_ExistingUser_ExceptionThrown()
-        {
-            // Arrange
-            var user = new User();
-            MakeValidUser(user);
-
-            var userStorageService = new UserStorageService();
-            userStorageService.Add(user);
-
-            // Assert
-            Assert.Throws<ArgumentException>(() => userStorageService.Add(user));
-        }
-
         [Test, TestCaseSource("UsersInStorage")]
         public void RemoveFirst_ExistingUser_RemoveOneUser(User user)
         {
@@ -260,7 +243,6 @@ namespace UserStorageServices.Tests
 
         private void MakeValidUser(User user)
         {
-            user.Id = new Guid("00000000-0000-0000-0000-000000000001");
             user.FirstName = "FirstName1";
             user.LastName = "LastName1";
             user.Age = 10;
