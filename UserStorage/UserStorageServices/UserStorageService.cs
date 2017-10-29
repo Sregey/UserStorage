@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UserStorageServices.Validation;
 
@@ -11,8 +10,6 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService : IUserStorageService
     {
-        private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
-
         private List<User> users;
 
         private IIdGenerator idGenerator;
@@ -41,8 +38,6 @@ namespace UserStorageServices
 
             user.Id = idGenerator.Generate();
             users.Add(user);
-
-            Log("Add() method is called.");
         }
 
         /// <summary>
@@ -68,8 +63,6 @@ namespace UserStorageServices
             {
                 users.RemoveAt(i);
             }
-
-            Log("RemoveFirst() method is called.");
         }
 
         /// <summary>
@@ -83,8 +76,6 @@ namespace UserStorageServices
             }
 
             users.RemoveAll(predicate);
-
-            Log("RemoveAll() method is called.");
         }
 
         /// <summary>
@@ -97,17 +88,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            Log("Search() method is called.");
-
             return users.Where((u) => predicate(u));
-        }
-
-        private void Log(string message)
-        {
-            if (enableLogging.Enabled)
-            {
-                Console.WriteLine(message);
-            }
         }
     }
 }
