@@ -11,9 +11,12 @@ namespace UserStorageServices
     {
         private List<User> users;
 
+        private IIdGenerator idGenerator;
+
         public UserStorageService()
         {
             users = new List<User>();
+            idGenerator = new IdGenerator();
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace UserStorageServices
                 throw new ArgumentException("Age is negative", nameof(user));
             }
 
-            user.Id = Guid.NewGuid();
+            user.Id = idGenerator.Generate();
             users.Add(user);
 
             Log("Add() method is called.");
