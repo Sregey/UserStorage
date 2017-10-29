@@ -38,11 +38,6 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (users.Exists((u) => u.Id == user.Id))
-            {
-                throw new ArgumentException("User with this id is already exists", nameof(user));
-            }
-
             if (string.IsNullOrWhiteSpace(user.FirstName))
             {
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
@@ -58,6 +53,7 @@ namespace UserStorageServices
                 throw new ArgumentException("Age is negative", nameof(user));
             }
 
+            user.Id = Guid.NewGuid();
             users.Add(user);
 
             Log("Add() method is called.");
