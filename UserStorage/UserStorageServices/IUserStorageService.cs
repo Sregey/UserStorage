@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UserStorageServices
 {
-    public interface IUserStorageService
+    public interface IUserStorageService : INotificationSubscriber
     {
         int Count { get; }
 

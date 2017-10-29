@@ -124,7 +124,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageService(
                 UserStorageServiceMode.MasterMode, 
-                Enumerable.Empty<IUserStorageService>());
+                null);
 
             // Act
             userStorageService.Add(user);
@@ -136,7 +136,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageService(
                 UserStorageServiceMode.MasterMode,
-                Enumerable.Empty<IUserStorageService>());
+                null);
             var user = GetValidUser();
 
             // Act
@@ -152,7 +152,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageService(
                 UserStorageServiceMode.SlaveMode,
-                Enumerable.Empty<IUserStorageService>());
+                null);
             var user = GetValidUser();
 
             // Assert

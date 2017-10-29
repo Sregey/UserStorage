@@ -21,5 +21,9 @@ namespace UserStorageServices
         public abstract void RemoveAll(Predicate<User> predicate);
 
         public abstract IEnumerable<User> Search(Predicate<User> predicate);
+
+        public abstract void UserAdded(User user);
+
+        public abstract void UserRemoved(User user);
     }
 }

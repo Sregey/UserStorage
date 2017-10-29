@@ -40,6 +40,16 @@ namespace UserStorageServices
             return users;
         }
 
+        public override void UserAdded(User user)
+        {
+            UserStorageService.UserAdded(user);
+        }
+
+        public override void UserRemoved(User user)
+        {
+            UserStorageService.UserRemoved(user);
+        }
+
         private void Log(string message)
         {
             if (enableLogging.Enabled)

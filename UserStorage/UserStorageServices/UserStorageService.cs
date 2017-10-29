@@ -13,20 +13,20 @@ namespace UserStorageServices
         private const string NOT_SUPPORTED_MESSAGE = "This service is slave";
 
         private UserStorageServiceMode mode;
-        private IList<IUserStorageService> slaveServices;
+        private IList<INotificationSubscriber> subscribers;
 
         private List<User> users;
 
         private IIdGenerator idGenerator;
         private IValidator<User> userValidator;
 
-        public UserStorageService(UserStorageServiceMode mode, IEnumerable<IUserStorageService> slaveServices)
+        public UserStorageService(UserStorageServiceMode mode, IEnumerable<INotificationSubscriber> slaveServices)
         {
             this.mode = mode;
             if (mode == UserStorageServiceMode.MasterMode)
             {
-                slaveServices = slaveServices ?? Enumerable.Empty<IUserStorageService>();
-                this.slaveServices = slaveServices.ToList() ;
+                slaveServices = slaveServices ?? Enumerable.Empty<INotificationSubscriber>();
+                subscribers = slaveServices.ToList() ;
             }
 
             users = new List<User>();
@@ -53,9 +53,9 @@ namespace UserStorageServices
                 user.Id = idGenerator.Generate();
                 users.Add(user);
 
-                foreach (var slaveService in slaveServices)
+                foreach (var subscriber in subscribers)
                 {
-                    slaveService.Add(user);
+                    subscriber.UserAdded(user);
                 }
             }
             else
@@ -90,9 +90,9 @@ namespace UserStorageServices
                     users.RemoveAt(i);
                 }
 
-                foreach (var slaveService in slaveServices)
+                foreach (var subscriber in subscribers)
                 {
-                    slaveService.RemoveFirst(predicate);
+                    subscriber.UserRemoved(users[i]);
                 }
             }
             else
@@ -113,11 +113,15 @@ namespace UserStorageServices
                     throw new ArgumentNullException(nameof(predicate));
                 }
 
+                var removedUsers = Search(predicate);
                 users.RemoveAll(predicate);
 
-                foreach (var slaveService in slaveServices)
+                foreach (var subscriber in subscribers)
                 {
-                    slaveService.RemoveAll(predicate);
+                    foreach (var removedUser in removedUsers)
+                    {
+                        subscriber.UserRemoved(removedUser);
+                    }
                 }
             }
             else
@@ -137,6 +141,46 @@ namespace UserStorageServices
             }
 
             return users.Where((u) => predicate(u));
+        }
+
+        public void UserAdded(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            users.Add(user);
+        }
+
+        public void UserRemoved(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            users.Remove(user);
+        }
+
+        public void AddSubscriber(INotificationSubscriber subscriber)
+        {
+            if (subscriber == null)
+            {
+                throw new ArgumentNullException(nameof(subscriber));
+            }
+
+            subscribers.Add(subscriber);
+        }
+
+        public void RemoveSubscriber(INotificationSubscriber subscriber)
+        {
+            if (subscriber == null)
+            {
+                throw new ArgumentNullException(nameof(subscriber));
+            }
+
+            subscribers.Remove(subscriber);
         }
     }
 }

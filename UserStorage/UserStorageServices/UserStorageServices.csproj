@@ -49,6 +49,7 @@
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
+    <Compile Include="INotificationSubscriber.cs" />
     <Compile Include="UserStorageServiceDecorator.cs" />
     <Compile Include="UserStorageServiceLog.cs" />
     <Compile Include="UserStorageServiceMode.cs" />
