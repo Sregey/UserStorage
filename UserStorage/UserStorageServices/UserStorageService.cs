@@ -23,6 +23,11 @@ namespace UserStorageServices
         public int Count => users.Count;
 
         /// <summary>
+        /// Determines is logging enabled. 
+        /// </summary>
+        public bool IsLoggingEnabled { get; set; }
+
+        /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
@@ -54,6 +59,8 @@ namespace UserStorageServices
             }
 
             users.Add(user);
+
+            Log("Add() method is called.");
         }
 
         /// <summary>
@@ -77,6 +84,8 @@ namespace UserStorageServices
             {
                 users.RemoveAt(i);
             }
+
+            Log("RemoveFirst() method is called.");
         }
 
         /// <summary>
@@ -90,6 +99,8 @@ namespace UserStorageServices
             }
 
             users.RemoveAll(predicate);
+
+            Log("RemoveAll() method is called.");
         }
 
         /// <summary>
@@ -102,7 +113,17 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(predicate));
             }
 
+            Log("Search() method is called.");
+
             return users.Where((u) => predicate(u));
+        }
+
+        private void Log(string message)
+        {
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine(message);
+            }
         }
     }
 }
