@@ -15,26 +15,27 @@ namespace UserStorageServices
             slaveServices = slaveServices ?? Enumerable.Empty<INotificationSubscriber>();
             foreach (var subscriber in slaveServices)
             {
-                AddSubscriber(subscriber);
+                this.AddSubscriber(subscriber);
             }
 
-            idGenerator = new IdGenerator();
-            userValidator = new UserValidator();
+            this.idGenerator = new IdGenerator();
+            this.userValidator = new UserValidator();
         }
 
         private event EventHandler<UserStorageModifiedEventArgs> UserAdded = delegate { };
+
         private event EventHandler<UserStorageModifiedEventArgs> UserRemoved = delegate { };
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.MasterMode;
 
         public override void Add(User user)
         {
-            userValidator.Validate(user);
+            this.userValidator.Validate(user);
 
-            user.Id = idGenerator.Generate();
-            users.Add(user);
+            user.Id = this.idGenerator.Generate();
+            Users.Add(user);
 
-            OnUserAdded(new UserStorageModifiedEventArgs(user));
+            this.OnUserAdded(new UserStorageModifiedEventArgs(user));
         }
 
         public override void RemoveFirst(Predicate<User> predicate)
@@ -45,19 +46,19 @@ namespace UserStorageServices
             }
 
             int i;
-            for (i = 0; i < users.Count; i++)
+            for (i = 0; i < this.Count; i++)
             {
-                if (predicate(users[i]))
+                if (predicate(this.Users[i]))
                 {
                     break;
                 }
             }
 
-            if (i < users.Count)
+            if (i < Users.Count)
             {
-                var removedUser = users[i];
-                users.RemoveAt(i);
-                OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+                var removedUser = Users[i];
+                Users.RemoveAt(i);
+                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
             }
         }
 
@@ -69,11 +70,11 @@ namespace UserStorageServices
             }
 
             var removedUsers = Search(predicate);
-            users.RemoveAll(predicate);
+            Users.RemoveAll(predicate);
 
             foreach (var removedUser in removedUsers)
             {
-                OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
             }
         }
 
@@ -84,8 +85,8 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(subscriber));
             }
 
-            UserAdded += subscriber.UserAdded;
-            UserRemoved += subscriber.UserRemoved;
+            this.UserAdded += subscriber.UserAdded;
+            this.UserRemoved += subscriber.UserRemoved;
         }
 
         public void RemoveSubscriber(INotificationSubscriber subscriber)
@@ -95,18 +96,18 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(subscriber));
             }
 
-            UserAdded -= subscriber.UserAdded;
-            UserRemoved -= subscriber.UserRemoved;
+            this.UserAdded -= subscriber.UserAdded;
+            this.UserRemoved -= subscriber.UserRemoved;
         }
 
         protected virtual void OnUserAdded(UserStorageModifiedEventArgs args)
         {
-            UserAdded(this, args);
+            this.UserAdded(this, args);
         }
 
         protected virtual void OnUserRemoved(UserStorageModifiedEventArgs args)
         {
-            UserRemoved(this, args);
+            this.UserRemoved(this, args);
         }
     }
 }

@@ -246,7 +246,6 @@ namespace UserStorageServices.Tests
             userStorageService.RemoveAll(predicate);
         }
 
-
         [TestCase(ExpectedException = typeof(NotSupportedException))]
         public void RemoveAll_SlaveService_ExceptionThrown()
         {

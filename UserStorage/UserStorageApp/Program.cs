@@ -25,7 +25,7 @@ namespace UserStorageApp
                     new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
                 };
 
-                var subscribers = slaveServices.Select((s) => (INotificationSubscriber) s);
+                var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
                 var storageService = new UserStorageServiceMaster(subscribers);
                 var client = new Client(new UserStorageServiceMasterLog(storageService));

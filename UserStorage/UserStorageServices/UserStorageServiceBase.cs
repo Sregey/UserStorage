@@ -8,12 +8,10 @@ namespace UserStorageServices
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.
     /// </summary>
     public abstract class UserStorageServiceBase : IUserStorageService
-    { 
-        protected List<User> users;
-
+    {
         public UserStorageServiceBase()
         {
-            users = new List<User>();
+            Users = new List<User>();
         }
 
         /// <summary>
@@ -25,8 +23,10 @@ namespace UserStorageServices
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
-        /// <returns>An amount of users in the storage.</returns>
-        public int Count => users.Count;
+        /// <returns>An amount of Users in the storage.</returns>
+        public int Count => Users.Count;
+
+        protected List<User> Users { get; set; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
@@ -54,7 +54,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            return users.Where((u) => predicate(u));
+            return Users.Where((u) => predicate(u));
         }
     }
 }
