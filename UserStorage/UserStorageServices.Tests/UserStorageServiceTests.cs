@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Schema;
+using System.Linq;
 using NUnit.Framework;
 
 namespace UserStorageServices.Tests
@@ -112,12 +112,21 @@ namespace UserStorageServices.Tests
 
                 predicate = ((u) => u.Age > 12);
                 yield return new TestCaseData(predicate).Returns(2);
+            }
+        }
 
-                //foreach (var user in users)
-                //{
-                //    Predicate<User> predicate = (u) => u.FirstName == user.FirstName;
-                //    yield return new TestCaseData(predicate);
-                //}
+        public IEnumerable<TestCaseData> Search_Predicates
+        {
+            get
+            {
+                Predicate<User> predicate = ((u) => u.FirstName == "FirstName1");
+                yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = ((u) => u.FirstName == "FirstName2");
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = ((u) => u.Age > 12);
+                yield return new TestCaseData(predicate).Returns(2);
             }
         }
 
@@ -228,5 +237,34 @@ namespace UserStorageServices.Tests
             userStorageService.RemoveAll(predicate);
         }
 
+        [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
+        public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
+        {
+            //Act
+            userStorageService.Search(predicate);
+        }
+
+        [Test]
+        public void Search_NotExistingUser_FindNoUsers()
+        {
+            //Arrange
+            Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
+
+            //Act
+            var users = userStorageService.Search(predicate);
+
+            //Assert
+            Assert.AreEqual(0, users.Count());
+        }
+
+        [Test, TestCaseSource("Search_Predicates")]
+        public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
+        {
+            //Act
+            var users = userStorageService.Search(predicate);
+
+            //Assert
+            return users.Count();
+        }
     }
 }

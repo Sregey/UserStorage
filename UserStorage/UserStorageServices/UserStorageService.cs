@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace UserStorageServices
@@ -94,9 +95,14 @@ namespace UserStorageServices
         /// <summary>
         /// Searches through the storage for a <see cref="User"/> that matches specified criteria.
         /// </summary>
-        public void Search()
+        public IEnumerable<User> Search(Predicate<User> predicate)
         {
-            // TODO: Implement Search() method.
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            return users.Where((u) => predicate(u));
         }
     }
 }
