@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UserStorageServices
 {
@@ -7,11 +9,23 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService
     {
+        private List<User> users;
+
+        public UserStorageService()
+        {
+            users = new List<User>();
+        }
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
-        public int Count { get; }
+        public int Count => users.Count;
+
+        /// <summary>
+        /// Determines is logging enabled. 
+        /// </summary>
+        public bool IsLoggingEnabled { get; set; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
@@ -24,28 +38,94 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
+            if (users.Exists((u) => u.Id == user.Id))
+            {
+                throw new ArgumentException("User with this id is already exists", nameof(user));
+            }
+
             if (string.IsNullOrWhiteSpace(user.FirstName))
             {
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
             }
 
-            // TODO: Implement Add() method and all other validation rules.
+            if (string.IsNullOrWhiteSpace(user.LastName))
+            {
+                throw new ArgumentException("LastName is null or empty or whitespace", nameof(user));
+            }
+
+            if (user.Age < 0)
+            {
+                throw new ArgumentException("Age is negative", nameof(user));
+            }
+
+            users.Add(user);
+
+            Log("Add() method is called.");
         }
 
         /// <summary>
-        /// Removes an existed <see cref="User"/> from the storage.
+        /// Removes first <see cref="User"/> from the storage by predicate.
         /// </summary>
-        public void Remove()
+        public void RemoveFirst(Predicate<User> predicate)
         {
-            // TODO: Implement Remove() method.
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            int i;
+            for (i = 0; i < users.Count; i++)
+            {
+                if (predicate(users[i]))
+                {
+                    break;
+                }
+            }
+
+            if (i < users.Count)
+            {
+                users.RemoveAt(i);
+            }
+
+            Log("RemoveFirst() method is called.");
+        }
+
+        /// <summary>
+        /// Removes all <see cref="User"/> from the storage by predicate.
+        /// </summary>
+        public void RemoveAll(Predicate<User> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            users.RemoveAll(predicate);
+
+            Log("RemoveAll() method is called.");
         }
 
         /// <summary>
         /// Searches through the storage for a <see cref="User"/> that matches specified criteria.
         /// </summary>
-        public void Search()
+        public IEnumerable<User> Search(Predicate<User> predicate)
         {
-            // TODO: Implement Search() method.
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            Log("Search() method is called.");
+
+            return users.Where((u) => predicate(u));
+        }
+
+        private void Log(string message)
+        {
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine(message);
+            }
         }
     }
 }
