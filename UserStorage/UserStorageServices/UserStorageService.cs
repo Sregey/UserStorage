@@ -56,11 +56,39 @@ namespace UserStorageServices
         }
 
         /// <summary>
-        /// Removes an existed <see cref="User"/> from the storage.
+        /// Removes first <see cref="User"/> from the storage by predicate.
         /// </summary>
-        public void Remove()
+        public void RemoveFirst(Predicate<User> predicate)
         {
-            // TODO: Implement Remove() method.
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            int i;
+            for (i = 0; i < users.Count; i++)
+            {
+                if (predicate(users[i])) 
+                    break;
+            }
+
+            if (i < users.Count)
+            {
+                users.RemoveAt(i);
+            }
+        }
+
+        /// <summary>
+        /// Removes all <see cref="User"/> from the storage by predicate.
+        /// </summary>
+        public void RemoveAll(Predicate<User> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            users.RemoveAll(predicate);
         }
 
         /// <summary>
