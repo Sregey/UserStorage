@@ -15,7 +15,7 @@ namespace UserStorageServices
         private List<User> users;
 
         private IIdGenerator idGenerator;
-        private IUserValidator userValidator;
+        private IValidator<User> userValidator;
 
         public UserStorageService()
         {
