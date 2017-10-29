@@ -105,6 +105,18 @@ namespace UserStorageServices.Tests
 
                 predicate = u => u.Age > 12;
                 yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = u => (u.FirstName == "FirstName1") && (u.LastName == "LastName2");
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = u => (u.FirstName == "FirstName1") && (u.Age == 10);
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = u => (u.LastName == "LastName2") && (u.Age <= 20);
+                yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = u => (u.FirstName == "FirstName1") && (u.LastName == "LastName2") && (u.Age == 15);
+                yield return new TestCaseData(predicate).Returns(1);
             }
         }
 
