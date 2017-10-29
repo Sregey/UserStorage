@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace UserStorageServices
@@ -9,6 +10,8 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService : IUserStorageService
     {
+        private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
+
         private List<User> users;
 
         private IIdGenerator idGenerator;
@@ -26,11 +29,6 @@ namespace UserStorageServices
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
-
-        /// <summary>
-        /// Determines is logging enabled. 
-        /// </summary>
-        public bool IsLoggingEnabled { get; set; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
@@ -105,7 +103,7 @@ namespace UserStorageServices
 
         private void Log(string message)
         {
-            if (IsLoggingEnabled)
+            if (enableLogging.Enabled)
             {
                 Console.WriteLine(message);
             }

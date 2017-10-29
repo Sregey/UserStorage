@@ -6,7 +6,6 @@ namespace UserStorageServices
     public interface IUserStorageService
     {
         int Count { get; }
-        bool IsLoggingEnabled { get; set; }
 
         void Add(User user);
         void RemoveFirst(Predicate<User> predicate);
