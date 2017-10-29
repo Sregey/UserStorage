@@ -314,9 +314,9 @@ Run tests, review and commit.
 
 ## Step 4 - Master-Slave
 
-- [ ] New branch "step4".
+- [x] New branch "step4".
 
-- [ ] Test-First: make _UserStorageService_ work in two modes - MASTER AND SLAVE NODE.
+- [x] Test-First: make _UserStorageService_ work in two modes - MASTER AND SLAVE NODE.
   * Add a new _UserStorageServiceMode_ enum with two values - _MasterNode_ and _SlaveNode_.
   * Extend _UserStorageService_ class constructor with new parameters - _UserStorageServiceMode_ and _IEnumerable\<IUserStorageService\>_.
   * If the service works as the _MasterNode_ it should allow Add, Remove and Search method calls.
@@ -331,15 +331,15 @@ The [sequence diagram](http://www.uml-diagrams.org/sequence-diagrams.html) below
 
 Add new tests first, then add implementation to _UserStorageService_. Run tests, review and commit.
 
-- [ ] Change the code of your application to have the MASTER NODE that is connected with two SLAVE NODES.
+- [x] Change the code of your application to have the MASTER NODE that is connected with two SLAVE NODES.
 
-- [ ] Add a new interface _INotificationSubscriber_ and implement [Observer design pattern](https://refactoring.guru/design-patterns/observer) as shown on the class diagram below:
+- [x] Add a new interface _INotificationSubscriber_ and implement [Observer design pattern](https://refactoring.guru/design-patterns/observer) as shown on the class diagram below:
 
 ![Master-Slave Observer](images/ClientAndServiceObserver.png "Master-Slave Observer")
 
 Run tests, review and commit.
 
-- [ ] [Replace Conditional with Polymorphism](https://refactoring.guru/replace-conditional-with-polymorphism) for _UserStorageService_ class. Use [generalization-related refactorings](https://refactoring.guru/refactoring/techniques/dealing-with-generalization) to do that.
+- [x] [Replace Conditional with Polymorphism](https://refactoring.guru/replace-conditional-with-polymorphism) for _UserStorageService_ class. Use [generalization-related refactorings](https://refactoring.guru/refactoring/techniques/dealing-with-generalization) to do that.
   * Rename _UserStorageService_ class to _UserStorageServiceBase_ class, and make it abstract.
   * Create two derived classes - _UserStorageServiceMaster_ and _UserStorageServiceSlave_.
   * Move code behavior that is specific to MASTER NODE to _UserStorageServiceMaster_ class.
@@ -351,11 +351,11 @@ Run tests, review and commit.
 
 Run tests, review and commit.
 
-- [ ] Replace Observer design pattern with [C# events](https://msdn.microsoft.com/en-us/library/ee817669.aspx#observerpattern_topic3b). Use [C# Event Implementation Fundamentals, Best Practices and Conventions](https://www.codeproject.com/Articles/20550/C-Event-Implementation-Fundamentals-Best-Practices) article to avoid the common mistakes when implementing that task.
+- [x] Replace Observer design pattern with [C# events](https://msdn.microsoft.com/en-us/library/ee817669.aspx#observerpattern_topic3b). Use [C# Event Implementation Fundamentals, Best Practices and Conventions](https://www.codeproject.com/Articles/20550/C-Event-Implementation-Fundamentals-Best-Practices) article to avoid the common mistakes when implementing that task.
 
 Refactor tests, run tests, review and commit.
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step4". Merge "step4" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step4". Merge "step4" into master. Publish.
 
 
 ## Step 5 - Persistence
