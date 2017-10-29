@@ -1,4 +1,4 @@
-namespace UserStorageServices
+namespace UserStorageServices.Validation
 {
     internal interface IValidator<T>
     {
