@@ -8,7 +8,14 @@ namespace UserStorageServices.Repositories
 {
     public class UserMemoryCache : IUserRepository
     {
-        public int Count { get; }
+        public UserMemoryCache()
+        {
+            Users = new List<User>();
+        }
+
+        protected IList<User> Users { get; set; }
+
+        public int Count => Users.Count;
 
         public virtual void Start()
         {
@@ -20,22 +27,50 @@ namespace UserStorageServices.Repositories
 
         public User Get(Guid id)
         {
-            throw new NotImplementedException();
+            return Users.FirstOrDefault((u) => u.Id == id);
         }
 
-        public void Set()
+        public void Set(User user)
         {
-            throw new NotImplementedException();
+            Users.Add(user);
         }
 
-        public void Remove()
+        public User Delete(Predicate<User> predicate)
         {
-            throw new NotImplementedException();
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            int i;
+            for (i = 0; i < this.Count; i++)
+            {
+                if (predicate(this.Users[i]))
+                {
+                    break;
+                }
+            }
+
+            if (i < Users.Count)
+            {
+                var removedUser = Users[i];
+                Users.RemoveAt(i);
+                return removedUser;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public IEnumerable<User> Query()
+        public IEnumerable<User> Query(Predicate<User> predicate)
         {
-            throw new NotImplementedException();
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            return Users.Where((u) => predicate(u));
         }
     }
 }

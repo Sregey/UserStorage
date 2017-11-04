@@ -32,7 +32,7 @@ namespace UserStorageApp
                 Age = 25
             });
 
-            userStorageService.RemoveFirst((u) => u.FirstName == "Bill");
+            userStorageService.Remove((u) => u.FirstName == "Bill");
             userStorageService.Search((u) => u.FirstName == "Alex");
 
             // _userStorageService.Remove();

@@ -23,12 +23,7 @@ namespace UserStorageServices
             throw new NotSupportedException(NotSupportedMessage);
         }
 
-        public override void RemoveFirst(Predicate<User> predicate)
-        {
-            throw new NotSupportedException(NotSupportedMessage);
-        }
-
-        public override void RemoveAll(Predicate<User> predicate)
+        public override void Remove(Predicate<User> predicate)
         {
             throw new NotSupportedException(NotSupportedMessage);
         }
@@ -40,7 +35,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(args));
             }
 
-            Users.Add(args.User);
+            UserRepository.Set(args.User);
         }
 
         public void UserRemoved(object sender, UserStorageModifiedEventArgs args)
@@ -50,7 +45,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(args));
             }
 
-            Users.Remove(args.User);
+            UserRepository.Delete((u) => u.Id == args.User.Id);
         }
     }
 }

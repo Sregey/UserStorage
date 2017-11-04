@@ -10,12 +10,11 @@ namespace UserStorageServices
     /// </summary>
     public abstract class UserStorageServiceBase : IUserStorageService
     {
-        private IUserRepository userRepository;
+        protected IUserRepository UserRepository { get; }
 
         protected UserStorageServiceBase(IUserRepository userRepository)
         {
-            this.userRepository = userRepository;
-            Users = new List<User>();
+            this.UserRepository = userRepository;
         }
 
         /// <summary>
@@ -24,13 +23,11 @@ namespace UserStorageServices
         /// <returns>Mode of user storage service.</returns>
         public abstract UserStorageServiceMode ServiceMode { get; }
 
-        protected List<User> Users { get; set; }
-
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of Users in the storage.</returns>
-        public int Count => Users.Count;
+        public int Count => UserRepository.Count;
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
@@ -41,12 +38,7 @@ namespace UserStorageServices
         /// <summary>
         /// Removes first <see cref="User"/> from the storage by predicate.
         /// </summary>
-        public abstract void RemoveFirst(Predicate<User> predicate);
-
-        /// <summary>
-        /// Removes all <see cref="User"/> from the storage by predicate.
-        /// </summary>
-        public abstract void RemoveAll(Predicate<User> predicate);
+        public abstract void Remove(Predicate<User> predicate);
 
         /// <summary>
         /// Searches through the storage for a <see cref="User"/> that matches specified criteria.
@@ -58,7 +50,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            return Users.Where((u) => predicate(u));
+            return UserRepository.Query(predicate);
         }
     }
 }

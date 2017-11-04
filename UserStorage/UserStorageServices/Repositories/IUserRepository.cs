@@ -13,10 +13,10 @@ namespace UserStorageServices.Repositories
 
         User Get(Guid id);
 
-        void Set();
+        void Set(User user);
 
-        void Remove();
+        User Delete(Predicate<User> predicate);
 
-        IEnumerable<User> Query();
+        IEnumerable<User> Query(Predicate<User> predicate);
     }
 }

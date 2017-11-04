@@ -35,49 +35,20 @@ namespace UserStorageServices
             this.userValidator.Validate(user);
 
             user.Id = this.idGenerator.Generate();
-            Users.Add(user);
+            UserRepository.Set(user);
 
             this.OnUserAdded(new UserStorageModifiedEventArgs(user));
         }
 
-        public override void RemoveFirst(Predicate<User> predicate)
+        public override void Remove(Predicate<User> predicate)
         {
             if (predicate == null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            int i;
-            for (i = 0; i < this.Count; i++)
-            {
-                if (predicate(this.Users[i]))
-                {
-                    break;
-                }
-            }
-
-            if (i < Users.Count)
-            {
-                var removedUser = Users[i];
-                Users.RemoveAt(i);
-                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
-            }
-        }
-
-        public override void RemoveAll(Predicate<User> predicate)
-        {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
-            var removedUsers = Search(predicate);
-            Users.RemoveAll(predicate);
-
-            foreach (var removedUser in removedUsers)
-            {
-                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
-            }
+            var removedUser = UserRepository.Delete(predicate);
+            this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
         }
 
         public void AddSubscriber(INotificationSubscriber subscriber)

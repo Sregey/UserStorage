@@ -77,21 +77,6 @@ namespace UserStorageServices.Tests
             }
         }
 
-        public IEnumerable<TestCaseData> RemoveAll_Predicates
-        {
-            get
-            {
-                Predicate<User> predicate = u => u.FirstName == "FirstName1";
-                yield return new TestCaseData(predicate).Returns(2);
-
-                predicate = u => u.FirstName == "FirstName2";
-                yield return new TestCaseData(predicate).Returns(1);
-
-                predicate = u => u.Age > 12;
-                yield return new TestCaseData(predicate).Returns(2);
-            }
-        }
-
         public IEnumerable<TestCaseData> Search_Predicates
         {
             get
@@ -155,7 +140,7 @@ namespace UserStorageServices.Tests
         }
 
         [Test, TestCaseSource("UsersInStorage")]
-        public void RemoveFirst_ExistingUser_RemoveOneUser(User user)
+        public void Remove_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
             var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
@@ -163,14 +148,14 @@ namespace UserStorageServices.Tests
             int oldUserCount = userStorageService.Count;
 
             // Act
-            userStorageService.RemoveFirst((u) => u == user);
+            userStorageService.Remove((u) => u == user);
 
             // Assert
             Assert.AreEqual(oldUserCount - 1, userStorageService.Count);
         }
 
         [Test]
-        public void RemoveFirst_NotExistingUser_RemoveNoUsers()
+        public void Remove_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
             var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
@@ -179,82 +164,31 @@ namespace UserStorageServices.Tests
             var user = GetValidUser();
 
             // Act
-            userStorageService.RemoveFirst((u) => u == user);
+            userStorageService.Remove((u) => u == user);
 
             // Assert
             Assert.AreEqual(oldUserCount, userStorageService.Count);
         }
 
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
-        public void RemoveFirst_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
+        public void Remove_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
             var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
             InitUserStoreageService(userStorageService);
 
             // Act
-            userStorageService.RemoveFirst(predicate);
+            userStorageService.Remove(predicate);
         }
 
         [TestCase(ExpectedException = typeof(NotSupportedException))]
-        public void RemoveFirst_SlaveService_ExceptionThrown()
+        public void Remove_SlaveService_ExceptionThrown()
         {
             // Arrange
             var userStorageService = new UserStorageServiceSlave(new UserMemoryCache());
 
             // Act
-            userStorageService.RemoveFirst((u) => true);
-        }
-
-        [Test, TestCaseSource("RemoveAll_Predicates")]
-        public int RemoveAll_ExistingUser_RemoveSeveralUsers(Predicate<User> predicate)
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
-            InitUserStoreageService(userStorageService);
-            int oldUserCount = userStorageService.Count;
-
-            // Act
-            userStorageService.RemoveAll(predicate);
-
-            // Assert
-            return oldUserCount - userStorageService.Count;
-        }
-
-        [Test]
-        public void RemoveAll_NotExistingUser_RemoveNoUsers()
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
-            InitUserStoreageService(userStorageService);
-            int oldUserCount = userStorageService.Count;
-
-            // Act
-            userStorageService.RemoveAll((u) => u.FirstName == "NotExistingName");
-
-            // Assert
-            Assert.AreEqual(oldUserCount, userStorageService.Count);
-        }
-
-        [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
-        public void RemoveAll_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
-            InitUserStoreageService(userStorageService);
-
-            // Act
-            userStorageService.RemoveAll(predicate);
-        }
-
-        [TestCase(ExpectedException = typeof(NotSupportedException))]
-        public void RemoveAll_SlaveService_ExceptionThrown()
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryCache());
-
-            // Act
-            userStorageService.RemoveAll((u) => true);
+            userStorageService.Remove((u) => true);
         }
 
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]

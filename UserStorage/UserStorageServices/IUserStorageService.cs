@@ -9,9 +9,7 @@ namespace UserStorageServices
 
         void Add(User user);
 
-        void RemoveFirst(Predicate<User> predicate);
-
-        void RemoveAll(Predicate<User> predicate);
+        void Remove(Predicate<User> predicate);
 
         IEnumerable<User> Search(Predicate<User> predicate);
     }
