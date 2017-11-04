@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UserStorageServices.Repositories;
 
 namespace UserStorageServices
 {
@@ -9,8 +10,11 @@ namespace UserStorageServices
     /// </summary>
     public abstract class UserStorageServiceBase : IUserStorageService
     {
-        public UserStorageServiceBase()
+        private IUserRepository userRepository;
+
+        protected UserStorageServiceBase(IUserRepository userRepository)
         {
+            this.userRepository = userRepository;
             Users = new List<User>();
         }
 
@@ -20,13 +24,13 @@ namespace UserStorageServices
         /// <returns>Mode of user storage service.</returns>
         public abstract UserStorageServiceMode ServiceMode { get; }
 
+        protected List<User> Users { get; set; }
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of Users in the storage.</returns>
         public int Count => Users.Count;
-
-        protected List<User> Users { get; set; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.

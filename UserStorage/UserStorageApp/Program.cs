@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.ServiceModel;
 using UserStorageServices;
+using UserStorageServices.Repositories;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
 namespace UserStorageApp
@@ -21,14 +22,15 @@ namespace UserStorageApp
 
                 var slaveServices = new IUserStorageService[]
                 {
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryCache())),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryCache())),
                 };
 
                 var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
-                var storageService = new UserStorageServiceMaster(subscribers);
-                var client = new Client(new UserStorageServiceMasterLog(storageService));
+                var userRepositoryForMaster = new UserMemoryCache();;
+                var storageService = new UserStorageServiceMaster(userRepositoryForMaster, subscribers);
+                var client = new Client(new UserStorageServiceMasterLog(storageService), userRepositoryForMaster);
 
                 client.Run();
 

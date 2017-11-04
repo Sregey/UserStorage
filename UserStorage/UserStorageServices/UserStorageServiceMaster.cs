@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UserStorageServices.Repositories;
 using UserStorageServices.Validation;
 
 namespace UserStorageServices
@@ -10,7 +11,8 @@ namespace UserStorageServices
         private readonly IIdGenerator idGenerator;
         private readonly IValidator<User> userValidator;
 
-        public UserStorageServiceMaster(IEnumerable<INotificationSubscriber> slaveServices)
+        public UserStorageServiceMaster(IUserRepository userRepository, IEnumerable<INotificationSubscriber> slaveServices)
+            : base(userRepository)
         {
             slaveServices = slaveServices ?? Enumerable.Empty<INotificationSubscriber>();
             foreach (var subscriber in slaveServices)

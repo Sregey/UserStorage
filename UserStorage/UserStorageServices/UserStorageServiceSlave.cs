@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Repositories;
 
 namespace UserStorageServices
 {
     public class UserStorageServiceSlave : UserStorageServiceBase, INotificationSubscriber
     {
         private const string NotSupportedMessage = "This service is slave";
+
+        public UserStorageServiceSlave(IUserRepository userRepository)
+            : base(userRepository)
+        {
+        }
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.SlaveMode;
 
