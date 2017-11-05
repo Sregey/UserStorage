@@ -45,7 +45,10 @@ namespace UserStorageServices
             }
 
             var removedUser = UserRepository.Delete(predicate);
-            this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+            if (removedUser != null)
+            {
+                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+            }
         }
 
         public void AddSubscriber(INotificationSubscriber subscriber)
