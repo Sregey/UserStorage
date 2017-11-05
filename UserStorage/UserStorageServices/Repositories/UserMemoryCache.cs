@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Validation;
 
 namespace UserStorageServices.Repositories
 {
     public class UserMemoryCache : IUserRepository
     {
+        private readonly UserValidator userValidator;
+        private readonly IdGenerator idGenerator;
+
         public UserMemoryCache()
         {
             Users = new List<User>();
+            userValidator = new UserValidator();
+            idGenerator = new IdGenerator();
         }
 
         protected IList<User> Users { get; set; }
@@ -32,6 +38,10 @@ namespace UserStorageServices.Repositories
 
         public void Set(User user)
         {
+            this.userValidator.Validate(user);
+
+            user.Id = this.idGenerator.Generate();
+
             Users.Add(user);
         }
 

@@ -32,9 +32,6 @@ namespace UserStorageServices
 
         public override void Add(User user)
         {
-            this.userValidator.Validate(user);
-
-            user.Id = this.idGenerator.Generate();
             UserRepository.Set(user);
 
             this.OnUserAdded(new UserStorageModifiedEventArgs(user));

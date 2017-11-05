@@ -5,6 +5,7 @@ namespace UserStorageServices
     /// <summary>
     /// Represents a user.
     /// </summary>
+    [Serializable]
     public class User
     {
         /// <summary>

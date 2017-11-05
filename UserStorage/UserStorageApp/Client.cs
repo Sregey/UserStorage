@@ -25,19 +25,22 @@ namespace UserStorageApp
         /// </summary>
         public void Run()
         {
+            userRepository.Start();
             userStorageService.Add(new User
             {
                 FirstName = "Alex",
                 LastName = "Black",
                 Age = 25
             });
+            userRepository.Stop();
 
+            userRepository.Start();
             userStorageService.Remove((u) => u.FirstName == "Bill");
+            userRepository.Stop();
+
+            userRepository.Start();
             userStorageService.Search((u) => u.FirstName == "Alex");
-
-            // _userStorageService.Remove();
-
-            // _userStorageService.Search();
+            userRepository.Stop();
         }
     }
 }
