@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using UserStorageServices;
@@ -28,7 +29,8 @@ namespace UserStorageApp
 
                 var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
-                var userRepositoryForMaster = new UserMemoryCache();;
+                var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
+                var userRepositoryForMaster = new UserMemoryCacheWithState(repositoryFileName);
                 var storageService = new UserStorageServiceMaster(userRepositoryForMaster, subscribers);
                 var client = new Client(new UserStorageServiceMasterLog(storageService), userRepositoryForMaster);
 

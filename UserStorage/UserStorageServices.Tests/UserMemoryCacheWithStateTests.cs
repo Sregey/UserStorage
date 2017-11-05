@@ -9,7 +9,7 @@ namespace UserStorageServices.Tests
 {
     class UserMemoryCacheWithStateTests
     {
-        private const string RepositoryFileName = "repository.bin";
+        private const string RepositoryFileName = "test_repository.bin";
 
         private static readonly User[] users;
 
@@ -51,10 +51,10 @@ namespace UserStorageServices.Tests
         public void StartAfterStop_ResultBeforStopIsEqualToResultAfterStart()
         {
             // Arrange
-            var userMemoryCacheWithStateStop = new UserMemoryCacheWithState();
+            var userMemoryCacheWithStateStop = new UserMemoryCacheWithState(RepositoryFileName);
             InitUserMemoryCache(userMemoryCacheWithStateStop);
 
-            var userMemoryCacheWithStateStart = new UserMemoryCacheWithState();
+            var userMemoryCacheWithStateStart = new UserMemoryCacheWithState(RepositoryFileName);
 
             // Act
             userMemoryCacheWithStateStop.Stop();

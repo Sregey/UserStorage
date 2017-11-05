@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,15 +13,26 @@ namespace UserStorageServices.Repositories
 {
     public class UserMemoryCacheWithState : UserMemoryCache
     {
+        private readonly string repositoryFileName;
+
+        public UserMemoryCacheWithState(string repositoryFileName)
+        {
+            this.repositoryFileName = repositoryFileName;
+        }
+
         public override void Start()
         {
-            FileStream fs = new FileStream("repository.bin", FileMode.Open);
+            if (!File.Exists(repositoryFileName))
+            {
+                Users = new List<User>();
+                return;
+            }
+
+            FileStream fs = new FileStream(repositoryFileName, FileMode.Open);
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-
-                // Deserialize the hashtable from the file and 
-                // assign the reference to the local variable.
+                
                 Users = (List<User>)formatter.Deserialize(fs);
             }
             catch (SerializationException e)
@@ -36,7 +48,7 @@ namespace UserStorageServices.Repositories
 
         public override void Stop()
         {
-            FileStream fs = new FileStream("repository.bin", FileMode.Create);
+            FileStream fs = new FileStream(repositoryFileName, FileMode.Create);
             
             BinaryFormatter formatter = new BinaryFormatter();
             try
