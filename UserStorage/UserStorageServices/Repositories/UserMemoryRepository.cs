@@ -23,14 +23,6 @@ namespace UserStorageServices.Repositories
 
         protected IList<User> Users { get; set; }
 
-        public virtual void Start()
-        {
-        }
-
-        public virtual void Stop()
-        {
-        }
-
         public User Get(Guid id)
         {
             return Users.FirstOrDefault((u) => u.Id == id);

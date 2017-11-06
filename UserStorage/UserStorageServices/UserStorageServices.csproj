@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
+    <Compile Include="Repositories\IUserRepositoryManager.cs" />
     <Compile Include="UserStorage\INotificationSubscriber.cs" />
     <Compile Include="Repositories\IUserSerializationStrategy.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
