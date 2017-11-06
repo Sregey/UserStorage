@@ -47,6 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Notification\AddUserActionNotification.cs" />
+    <Compile Include="Notification\DeleteUserActionNotification.cs" />
+    <Compile Include="Notification\Notification.cs" />
+    <Compile Include="Notification\NotificationContainer.cs" />
+    <Compile Include="Notification\NotificationType.cs" />
     <Compile Include="Repositories\BinaryUserSerializationStrategy.cs" />
     <Compile Include="Repositories\DataSetForUserRepository.cs" />
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
