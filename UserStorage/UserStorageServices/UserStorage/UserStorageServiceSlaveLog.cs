@@ -1,4 +1,4 @@
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     public class UserStorageServiceSlaveLog : UserStorageServiceLog<UserStorageServiceSlave>, INotificationSubscriber
     {

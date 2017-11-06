@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UserStorageServices.Repositories;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     /// <summary>
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.

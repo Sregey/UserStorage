@@ -4,7 +4,7 @@ using System.Linq;
 using UserStorageServices.Repositories;
 using UserStorageServices.Validation;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     public class UserStorageServiceMaster : UserStorageServiceBase
     {

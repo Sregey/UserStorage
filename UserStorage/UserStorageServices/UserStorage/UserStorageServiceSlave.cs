@@ -1,7 +1,7 @@
 using System;
 using UserStorageServices.Repositories;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     public class UserStorageServiceSlave : UserStorageServiceBase, INotificationSubscriber
     {

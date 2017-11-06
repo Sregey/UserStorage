@@ -80,13 +80,13 @@ namespace UserStorageServices.Tests
         }
 
         [Test, TestCaseSource(nameof(InvalidUsers))]
-        public void Add_InvalidUser_ExceptionThrown(User user)
+        public void Set_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userMemoryCache = new UserMemoryRepository();
 
             // Act
-            userStorageService.Add(user);
+            userMemoryCache.Set(user);
         }
 
         [Test]

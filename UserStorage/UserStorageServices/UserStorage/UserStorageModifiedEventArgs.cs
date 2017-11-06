@@ -1,6 +1,6 @@
 using System;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     public class UserStorageModifiedEventArgs : EventArgs
     {
