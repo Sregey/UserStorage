@@ -47,10 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryUserSerializationStrategy.cs" />
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
     <Compile Include="INotificationSubscriber.cs" />
+    <Compile Include="IUserSerializationStrategy.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserMemoryCache.cs" />
     <Compile Include="Repositories\UserMemoryCacheWithState.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="UserStorageServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\UserValidator.cs" />
+    <Compile Include="XmlUserSerializationStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
