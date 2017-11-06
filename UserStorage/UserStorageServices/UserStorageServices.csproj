@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Notification\AddUserActionNotification.cs" />
+    <Compile Include="Notification\CompositeNotificationSender.cs" />
     <Compile Include="Notification\DeleteUserActionNotification.cs" />
     <Compile Include="Notification\INotificationReceiver.cs" />
     <Compile Include="Notification\INotificationSender.cs" />

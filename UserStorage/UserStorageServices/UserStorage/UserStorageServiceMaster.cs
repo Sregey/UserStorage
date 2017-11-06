@@ -15,7 +15,7 @@ namespace UserStorageServices.UserStorage
         public UserStorageServiceMaster(IUserRepository userRepository, INotificationReceiver receiver)
             : base(userRepository)
         {
-            notificationSender = new NotificationSender(receiver);
+            notificationSender = new CompositeNotificationSender(new [] {receiver});
 
             idGenerator = new IdGenerator(userRepository.LastId);
             userValidator = new UserValidator();
