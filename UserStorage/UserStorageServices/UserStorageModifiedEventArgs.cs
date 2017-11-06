@@ -11,6 +11,6 @@ namespace UserStorageServices
             this.user = user;
         }
 
-        public User User => this.user;
+        public User User => user;
     }
 }

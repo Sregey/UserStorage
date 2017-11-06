@@ -9,7 +9,7 @@ namespace UserStorageServices.Tests
 {
     using static UserTestHealper;
 
-    internal class UserStorageServiceTests
+    internal class UserMemoryRepositoryTests
     {
         public IEnumerable<TestCaseData> InvalidUsers
         {
@@ -41,7 +41,7 @@ namespace UserStorageServices.Tests
             }
         }
 
-        public IEnumerable<TestCaseData> UsersInStorage
+        public IEnumerable<TestCaseData> UsersInRepository
         {
             get
             {
@@ -52,7 +52,7 @@ namespace UserStorageServices.Tests
             }
         }
 
-        public IEnumerable<TestCaseData> SearchPredicates
+        public IEnumerable<TestCaseData> QueryPredicates
         {
             get
             {
@@ -90,120 +90,109 @@ namespace UserStorageServices.Tests
         }
 
         [Test]
-        public void Add_ValidUser_StorageCountIs1()
+        public void Set_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userMemoryCache = new UserMemoryRepository();
             var user = GetValidUser();
 
             // Act
-            userStorageService.Add(user);
+            userMemoryCache.Set(user);
 
             // Assert
-            Assert.AreEqual(1, userStorageService.Count);
+            Assert.AreEqual(1, userMemoryCache.Count);
+        }
+
+        [Test, TestCaseSource(nameof(UsersInRepository))]
+        public void Delete_ExistingUser_RemoveOneUser(User user)
+        {
+            // Arrange
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
+            int oldUserCount = userMemoryCache.Count;
+
+            // Act
+            userMemoryCache.Delete((u) => u == user);
+
+            // Assert
+            Assert.AreEqual(oldUserCount - 1, userMemoryCache.Count);
         }
 
         [Test]
-        public void Add_ValidUserToSlaveService_ExceptionThrown()
+        public void Delete_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
-            var user = GetValidUser();
-
-            // Assert
-            Assert.Throws<NotSupportedException>(() => userStorageService.Add(user));
-        }
-
-        [Test, TestCaseSource(nameof(UsersInStorage))]
-        public void Remove_ExistingUser_RemoveOneUser(User user)
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
-            int oldUserCount = userStorageService.Count;
-
-            // Act
-            userStorageService.Remove((u) => u == user);
-
-            // Assert
-            Assert.AreEqual(oldUserCount - 1, userStorageService.Count);
-        }
-
-        [Test]
-        public void Remove_NotExistingUser_RemoveNoUsers()
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
-            int oldUserCount = userStorageService.Count;
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
+            int oldUserCount = userMemoryCache.Count;
             var user = GetValidUser();
 
             // Act
-            userStorageService.Remove((u) => u == user);
+            userMemoryCache.Delete((u) => u == user);
 
             // Assert
-            Assert.AreEqual(oldUserCount, userStorageService.Count);
+            Assert.AreEqual(oldUserCount, userMemoryCache.Count);
         }
 
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
-        public void Remove_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
+        public void Delete_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
 
             // Act
-            userStorageService.Remove(predicate);
-        }
-
-        [TestCase(ExpectedException = typeof(NotSupportedException))]
-        public void Remove_SlaveService_ExceptionThrown()
-        {
-            // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
-
-            // Act
-            userStorageService.Remove((u) => true);
+            userMemoryCache.Delete(predicate);
         }
 
         [TestCase(null, ExpectedException = typeof(ArgumentNullException))]
-        public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
+        public void Query_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
 
             // Act
-            userStorageService.Search(predicate);
+            userMemoryCache.Query(predicate);
         }
 
         [Test]
-        public void Search_NotExistingUser_FindNoUsers()
+        public void Query_NotExistingUser_FindNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
             // Act
-            var users = userStorageService.Search(predicate);
+            var users = userMemoryCache.Query(predicate);
 
             // Assert
             Assert.AreEqual(0, users.Count());
         }
 
-        [Test, TestCaseSource(nameof(SearchPredicates))]
+        [Test, TestCaseSource(nameof(QueryPredicates))]
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
-            InitUserStoreageService(userStorageService);
+            var userMemoryCache = new UserMemoryRepository();
+            InitUserRepository(userMemoryCache);
 
             // Act
-            var users = userStorageService.Search(predicate);
+            var users = userMemoryCache.Query(predicate);
 
             // Assert
             return users.Count();
+        }
+
+        private User GetValidUser()
+        {
+            return new User
+            {
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Age = 10,
+            };
         }
     }
 }

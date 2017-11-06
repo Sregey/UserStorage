@@ -1,14 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UserStorageServices.Repositories;
 
 namespace UserStorageServices
 {
     public class UserStorageServiceSlave : UserStorageServiceBase, INotificationSubscriber
     {
         private const string NotSupportedMessage = "This service is slave";
+
+        public UserStorageServiceSlave(IUserRepository userRepository)
+            : base(userRepository)
+        {
+        }
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.SlaveMode;
 
@@ -17,12 +19,7 @@ namespace UserStorageServices
             throw new NotSupportedException(NotSupportedMessage);
         }
 
-        public override void RemoveFirst(Predicate<User> predicate)
-        {
-            throw new NotSupportedException(NotSupportedMessage);
-        }
-
-        public override void RemoveAll(Predicate<User> predicate)
+        public override void Remove(Predicate<User> predicate)
         {
             throw new NotSupportedException(NotSupportedMessage);
         }
@@ -34,7 +31,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(args));
             }
 
-            Users.Add(args.User);
+            UserRepository.Set(args.User);
         }
 
         public void UserRemoved(object sender, UserStorageModifiedEventArgs args)
@@ -44,7 +41,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(args));
             }
 
-            Users.Remove(args.User);
+            UserRepository.Delete((u) => u.Id == args.User.Id);
         }
     }
 }

@@ -17,9 +17,7 @@ namespace UserStorageServices
 
         public abstract void Add(User user);
 
-        public abstract void RemoveFirst(Predicate<User> predicate);
-
-        public abstract void RemoveAll(Predicate<User> predicate);
+        public abstract void Remove(Predicate<User> predicate);
 
         public abstract IEnumerable<User> Search(Predicate<User> predicate);
     }

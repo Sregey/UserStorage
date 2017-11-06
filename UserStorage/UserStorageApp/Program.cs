@@ -1,7 +1,9 @@
 using System;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using UserStorageServices;
+using UserStorageServices.Repositories;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
 namespace UserStorageApp
@@ -13,7 +15,7 @@ namespace UserStorageApp
         public static void Main(string[] args)
         {
             // Loading configuration from the application configuration file. This configuration is not used yet.
-            var serviceConfiguration = (ServiceConfiguration)System.Configuration.ConfigurationManager.GetSection("serviceConfiguration");
+            var serviceConfiguration = (ServiceConfiguration)ConfigurationManager.GetSection("serviceConfiguration");
 
             using (var host = new ServiceHost(MyDiagnostics.Create(serviceConfiguration)))
             {
@@ -21,14 +23,16 @@ namespace UserStorageApp
 
                 var slaveServices = new IUserStorageService[]
                 {
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave()),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
                 };
 
                 var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
-                var storageService = new UserStorageServiceMaster(subscribers);
-                var client = new Client(new UserStorageServiceMasterLog(storageService));
+                var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
+                var userRepositoryForMaster = new UserDiskRepository(repositoryFileName);
+                var storageService = new UserStorageServiceMaster(userRepositoryForMaster, subscribers);
+                var client = new Client(new UserStorageServiceMasterLog(storageService), userRepositoryForMaster);
 
                 client.Run();
 

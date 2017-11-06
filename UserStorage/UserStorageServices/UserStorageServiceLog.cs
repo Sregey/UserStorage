@@ -19,25 +19,19 @@ namespace UserStorageServices
         public override void Add(User user)
         {
             UserStorageService.Add(user);
-            this.Log("Add() method is called.");
+            Log("Add() method is called.");
         }
 
-        public override void RemoveFirst(Predicate<User> predicate)
+        public override void Remove(Predicate<User> predicate)
         {
-            UserStorageService.RemoveFirst(predicate);
-            this.Log("RemoveFirst() method is called.");
-        }
-
-        public override void RemoveAll(Predicate<User> predicate)
-        {
-            UserStorageService.RemoveAll(predicate);
-            this.Log("RemoveAll() method is called.");
+            UserStorageService.Remove(predicate);
+            Log("Remove() method is called.");
         }
 
         public override IEnumerable<User> Search(Predicate<User> predicate)
         {
             var users = UserStorageService.Search(predicate);
-            this.Log("Search() method is called.");
+            Log("Search() method is called.");
             return users;
         }
 
