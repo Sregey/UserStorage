@@ -7,35 +7,10 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
+    using static UserTestHealper;
+
     class UserMemoryRepositoryTests
     {
-        private static User[] users;
-
-        static UserMemoryRepositoryTests()
-        {
-            users = new User[]
-            {
-                new User
-                {
-                    FirstName = "FirstName1",
-                    LastName = "LastName1",
-                    Age = 10,
-                },
-                new User
-                {
-                    FirstName = "FirstName2",
-                    LastName = "LastName2",
-                    Age = 20,
-                },
-                new User
-                {
-                    FirstName = "FirstName1",
-                    LastName = "LastName2",
-                    Age = 15,
-                },
-            };
-        }
-
         public IEnumerable<TestCaseData> InvalidUsers
         {
             get
@@ -70,14 +45,14 @@ namespace UserStorageServices.Tests
         {
             get
             {
-                foreach (var user in users)
+                foreach (var user in Users)
                 {
                     yield return new TestCaseData(user);
                 }
             }
         }
 
-        public IEnumerable<TestCaseData> Query_Predicates
+        public IEnumerable<TestCaseData> QueryPredicates
         {
             get
             {
@@ -133,7 +108,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
             int oldUserCount = userMemoryCache.Count;
 
             // Act
@@ -148,7 +123,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
             int oldUserCount = userMemoryCache.Count;
             var user = GetValidUser();
 
@@ -164,7 +139,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
 
             // Act
             userMemoryCache.Delete(predicate);
@@ -175,7 +150,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
 
             // Act
             userMemoryCache.Query(predicate);
@@ -186,7 +161,7 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
             // Act
@@ -196,12 +171,12 @@ namespace UserStorageServices.Tests
             Assert.AreEqual(0, users.Count());
         }
 
-        [Test, TestCaseSource(nameof(Query_Predicates))]
+        [Test, TestCaseSource(nameof(QueryPredicates))]
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
             var userMemoryCache = new UserMemoryRepository();
-            InitUserMemoryCache(userMemoryCache);
+            InitUserRepository(userMemoryCache);
 
             // Act
             var users = userMemoryCache.Query(predicate);
@@ -219,14 +194,5 @@ namespace UserStorageServices.Tests
                 Age = 10,
             };
         }
-
-        private void InitUserMemoryCache(UserMemoryRepository userMemoryCache)
-        {
-            foreach (var user in users)
-            {
-                userMemoryCache.Set(user);
-            }
-        }
-
     }
 }

@@ -7,35 +7,10 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
+    using static UserTestHealper;
+
     public class UserStorageServiceTests
     {
-        private static User[] users;
-
-        static UserStorageServiceTests()
-        {
-            users = new User[]
-            {
-                new User
-                {
-                    FirstName = "FirstName1",
-                    LastName = "LastName1",
-                    Age = 10,
-                },
-                new User
-                {
-                    FirstName = "FirstName2",
-                    LastName = "LastName2",
-                    Age = 20,
-                },
-                new User
-                {
-                    FirstName = "FirstName1",
-                    LastName = "LastName2",
-                    Age = 15,
-                },
-            };
-        }
-
         public IEnumerable<TestCaseData> InvalidUsers
         {
             get
@@ -70,14 +45,14 @@ namespace UserStorageServices.Tests
         {
             get
             {
-                foreach (var user in users)
+                foreach (var user in Users)
                 {
                     yield return new TestCaseData(user);
                 }
             }
         }
 
-        public IEnumerable<TestCaseData> Search_Predicates
+        public IEnumerable<TestCaseData> SearchPredicates
         {
             get
             {
@@ -104,7 +79,7 @@ namespace UserStorageServices.Tests
             }
         }
 
-        [Test, TestCaseSource("InvalidUsers")]
+        [Test, TestCaseSource(nameof(InvalidUsers))]
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
@@ -139,7 +114,7 @@ namespace UserStorageServices.Tests
             Assert.Throws<NotSupportedException>(() => userStorageService.Add(user));
         }
 
-        [Test, TestCaseSource("UsersInStorage")]
+        [Test, TestCaseSource(nameof(UsersInStorage))]
         public void Remove_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
@@ -217,7 +192,7 @@ namespace UserStorageServices.Tests
             Assert.AreEqual(0, users.Count());
         }
 
-        [Test, TestCaseSource("Search_Predicates")]
+        [Test, TestCaseSource(nameof(SearchPredicates))]
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
@@ -229,24 +204,6 @@ namespace UserStorageServices.Tests
 
             // Assert
             return users.Count();
-        }
-
-        private User GetValidUser()
-        {
-            return new User
-            {
-                FirstName = "FirstName1",
-                LastName = "LastName1",
-                Age = 10,
-            };
-        }
-
-        private void InitUserStoreageService(IUserStorageService userStorageService)
-        {
-            foreach (var user in users)
-            {
-                userStorageService.Add(user);
-            }
         }
     }
 }

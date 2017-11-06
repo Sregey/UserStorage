@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
-    class UserTestHealper
+    static class UserTestHealper
     {
         public static List<User> Users { get; }
 
@@ -86,6 +84,24 @@ namespace UserStorageServices.Tests
             foreach (var user in Users)
             {
                 userRepository.Set(user);
+            }
+        }
+
+        public static User GetValidUser()
+        {
+            return new User
+            {
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Age = 10,
+            };
+        }
+
+        public static void InitUserStoreageService(IUserStorageService userStorageService)
+        {
+            foreach (var user in Users)
+            {
+                userStorageService.Add(user);
             }
         }
     }
