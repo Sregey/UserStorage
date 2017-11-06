@@ -23,14 +23,14 @@ namespace UserStorageApp
 
                 var slaveServices = new IUserStorageService[]
                 {
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryCache())),
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryCache())),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
+                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
                 };
 
                 var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
                 var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
-                var userRepositoryForMaster = new UserMemoryCacheWithState(repositoryFileName);
+                var userRepositoryForMaster = new UserDiskRepository(repositoryFileName);
                 var storageService = new UserStorageServiceMaster(userRepositoryForMaster, subscribers);
                 var client = new Client(new UserStorageServiceMasterLog(storageService), userRepositoryForMaster);
 

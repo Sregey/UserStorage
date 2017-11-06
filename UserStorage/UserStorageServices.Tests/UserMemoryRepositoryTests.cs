@@ -7,11 +7,11 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
-    class UserMemoryCacheTests
+    class UserMemoryRepositoryTests
     {
         private static User[] users;
 
-        static UserMemoryCacheTests()
+        static UserMemoryRepositoryTests()
         {
             users = new User[]
             {
@@ -108,7 +108,7 @@ namespace UserStorageServices.Tests
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
 
             // Act
             userStorageService.Add(user);
@@ -118,7 +118,7 @@ namespace UserStorageServices.Tests
         public void Set_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             var user = GetValidUser();
 
             // Act
@@ -132,7 +132,7 @@ namespace UserStorageServices.Tests
         public void Delete_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
             int oldUserCount = userMemoryCache.Count;
 
@@ -147,7 +147,7 @@ namespace UserStorageServices.Tests
         public void Delete_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
             int oldUserCount = userMemoryCache.Count;
             var user = GetValidUser();
@@ -163,7 +163,7 @@ namespace UserStorageServices.Tests
         public void Delete_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
 
             // Act
@@ -174,7 +174,7 @@ namespace UserStorageServices.Tests
         public void Query_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
 
             // Act
@@ -185,7 +185,7 @@ namespace UserStorageServices.Tests
         public void Query_NotExistingUser_FindNoUsers()
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
@@ -200,7 +200,7 @@ namespace UserStorageServices.Tests
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userMemoryCache = new UserMemoryCache();
+            var userMemoryCache = new UserMemoryRepository();
             InitUserMemoryCache(userMemoryCache);
 
             // Act
@@ -220,7 +220,7 @@ namespace UserStorageServices.Tests
             };
         }
 
-        private void InitUserMemoryCache(UserMemoryCache userMemoryCache)
+        private void InitUserMemoryCache(UserMemoryRepository userMemoryCache)
         {
             foreach (var user in users)
             {

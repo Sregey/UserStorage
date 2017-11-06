@@ -7,12 +7,12 @@ using UserStorageServices.Validation;
 
 namespace UserStorageServices.Repositories
 {
-    public class UserMemoryCache : IUserRepository
+    public class UserMemoryRepository : IUserRepository
     {
         private readonly UserValidator userValidator;
         private readonly IdGenerator idGenerator;
 
-        public UserMemoryCache()
+        public UserMemoryRepository()
         {
             Users = new List<User>();
             userValidator = new UserValidator();

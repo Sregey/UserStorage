@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace UserStorageServices.Repositories
 {
-    public class UserMemoryCacheWithState : UserMemoryCache
+    public class UserDiskRepository : UserMemoryRepository
     {
         private readonly string repositoryFileName;
         private readonly IUserSerializationStrategy userSerializationStrategy;
 
-        public UserMemoryCacheWithState(string repositoryFileName)
+        public UserDiskRepository(string repositoryFileName)
         {
             this.repositoryFileName = repositoryFileName;
             this.userSerializationStrategy = new XmlUserSerializationStrategy();

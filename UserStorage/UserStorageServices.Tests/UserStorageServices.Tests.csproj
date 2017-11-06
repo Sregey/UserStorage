@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UserMemoryCacheTests.cs" />
-    <Compile Include="UserMemoryCacheWithStateTests.cs" />
+    <Compile Include="UserMemoryRepositoryTests.cs" />
+    <Compile Include="UserDiskRepositoryTests.cs" />
     <Compile Include="UserStorageServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTestHealper.cs" />

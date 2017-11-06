@@ -7,13 +7,13 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
-    class UserMemoryCacheWithStateTests
+    class UserDiskRepository
     {
         private const string RepositoryFileName = "test_repository.bin";
 
         private static readonly User[] users;
 
-        static UserMemoryCacheWithStateTests()
+        static UserDiskRepository()
         {
             users = new User[]
             {
@@ -51,10 +51,10 @@ namespace UserStorageServices.Tests
         public void StartAfterStop_ResultBeforStopIsEqualToResultAfterStart()
         {
             // Arrange
-            var userMemoryCacheWithStateStop = new UserMemoryCacheWithState(RepositoryFileName);
+            var userMemoryCacheWithStateStop = new Repositories.UserDiskRepository(RepositoryFileName);
             InitUserMemoryCache(userMemoryCacheWithStateStop);
 
-            var userMemoryCacheWithStateStart = new UserMemoryCacheWithState(RepositoryFileName);
+            var userMemoryCacheWithStateStart = new Repositories.UserDiskRepository(RepositoryFileName);
 
             // Act
             userMemoryCacheWithStateStop.Stop();
@@ -67,7 +67,7 @@ namespace UserStorageServices.Tests
                 CompareUsers);
         }
 
-        private void InitUserMemoryCache(UserMemoryCacheWithState userMemoryCache)
+        private void InitUserMemoryCache(Repositories.UserDiskRepository userMemoryCache)
         {
             foreach (var user in users)
             {

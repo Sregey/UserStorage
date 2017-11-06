@@ -54,8 +54,8 @@
     <Compile Include="INotificationSubscriber.cs" />
     <Compile Include="IUserSerializationStrategy.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\UserMemoryCache.cs" />
-    <Compile Include="Repositories\UserMemoryCacheWithState.cs" />
+    <Compile Include="Repositories\UserMemoryRepository.cs" />
+    <Compile Include="Repositories\UserDiskRepository.cs" />
     <Compile Include="UserStorageModifiedEventArgs.cs" />
     <Compile Include="UserStorageServiceDecorator.cs" />
     <Compile Include="UserStorageServiceLog.cs" />

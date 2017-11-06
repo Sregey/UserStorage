@@ -108,7 +108,7 @@ namespace UserStorageServices.Tests
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(),null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(),null);
 
             // Act
             userStorageService.Add(user);
@@ -118,7 +118,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(),null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(),null);
             var user = GetValidUser();
 
             // Act
@@ -132,7 +132,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUserToSlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryCache());
+            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
             var user = GetValidUser();
 
             // Assert
@@ -143,7 +143,7 @@ namespace UserStorageServices.Tests
         public void Remove_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -158,7 +158,7 @@ namespace UserStorageServices.Tests
         public void Remove_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
             var user = GetValidUser();
@@ -174,7 +174,7 @@ namespace UserStorageServices.Tests
         public void Remove_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -185,7 +185,7 @@ namespace UserStorageServices.Tests
         public void Remove_SlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryCache());
+            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
 
             // Act
             userStorageService.Remove((u) => true);
@@ -195,7 +195,7 @@ namespace UserStorageServices.Tests
         public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -206,7 +206,7 @@ namespace UserStorageServices.Tests
         public void Search_NotExistingUser_FindNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
@@ -221,7 +221,7 @@ namespace UserStorageServices.Tests
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryCache(), null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             InitUserStoreageService(userStorageService);
 
             // Act
