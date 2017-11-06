@@ -8,9 +8,9 @@ namespace UserStorageServices.Tests
 {
     internal class UserSerializationStrategyTests
     {
-        private string expectedXmlSerializePath = "test_xml_repository.bin";
-        private string expectedBinSerializePath = "test_bin_repository.bin";
-        private string actualSerializePath = "test_result.bin";
+        private string expectedXmlSerializePath = @"SerializationTestFiles\test_xml_repository.bin";
+        private string expectedBinSerializePath = @"SerializationTestFiles\test_bin_repository.bin";
+        private string actualSerializePath = @"SerializationTestFiles\test_result.bin";
 
         public IEnumerable<TestCaseData> Serializers
         {
