@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.Validation;
 
@@ -11,22 +10,16 @@ namespace UserStorageServices.UserStorage
         private readonly IIdGenerator idGenerator;
         private readonly IValidator<User> userValidator;
 
-        public UserStorageServiceMaster(IUserRepository userRepository, IEnumerable<INotificationSubscriber> slaveServices)
+        private readonly INotificationSender notificationSender;
+
+        public UserStorageServiceMaster(IUserRepository userRepository, INotificationReceiver receiver)
             : base(userRepository)
         {
-            slaveServices = slaveServices ?? Enumerable.Empty<INotificationSubscriber>();
-            foreach (var subscriber in slaveServices)
-            {
-                AddSubscriber(subscriber);
-            }
+            notificationSender = new NotificationSender(receiver);
 
             idGenerator = new IdGenerator(userRepository.LastId);
             userValidator = new UserValidator();
         }
-
-        private event EventHandler<UserStorageModifiedEventArgs> UserAdded = delegate { };
-
-        private event EventHandler<UserStorageModifiedEventArgs> UserRemoved = delegate { };
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.MasterMode;
 
@@ -36,7 +29,7 @@ namespace UserStorageServices.UserStorage
             user.Id = idGenerator.Generate();
             UserRepository.Set(user);
 
-            OnUserAdded(new UserStorageModifiedEventArgs(user));
+            OnUserAdded(user);
         }
 
         public override void Remove(Predicate<User> predicate)
@@ -49,40 +42,38 @@ namespace UserStorageServices.UserStorage
             var removedUser = UserRepository.Delete(predicate);
             if (removedUser != null)
             {
-                OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+                OnUserRemoved(removedUser.Id);
             }
         }
 
-        public void AddSubscriber(INotificationSubscriber subscriber)
+        protected virtual void OnUserAdded(User user)
         {
-            if (subscriber == null)
+            notificationSender.Send(new NotificationContainer()
             {
-                throw new ArgumentNullException(nameof(subscriber));
-            }
-
-            UserAdded += subscriber.UserAdded;
-            UserRemoved += subscriber.UserRemoved;
+                Notifications = new[]
+                {
+                    new Notification.Notification()
+                    {
+                        Type = NotificationType.AddUser,
+                        Action = new AddUserActionNotification() {User = user}
+                    }
+                }
+            });
         }
 
-        public void RemoveSubscriber(INotificationSubscriber subscriber)
+        protected virtual void OnUserRemoved(Guid userId)
         {
-            if (subscriber == null)
+            notificationSender.Send(new NotificationContainer()
             {
-                throw new ArgumentNullException(nameof(subscriber));
-            }
-
-            UserAdded -= subscriber.UserAdded;
-            UserRemoved -= subscriber.UserRemoved;
-        }
-
-        protected virtual void OnUserAdded(UserStorageModifiedEventArgs args)
-        {
-            UserAdded(this, args);
-        }
-
-        protected virtual void OnUserRemoved(UserStorageModifiedEventArgs args)
-        {
-            UserRemoved(this, args);
+                Notifications = new[]
+                {
+                    new Notification.Notification()
+                    {
+                        Type = NotificationType.DeleteUser,
+                        Action = new DeleteUserActionNotification() {UserId = userId}
+                    }
+                }
+            });
         }
     }
 }

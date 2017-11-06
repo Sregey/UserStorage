@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UserStorageServices.Exceptions;
+using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
 
@@ -94,7 +95,9 @@ namespace UserStorageServices.Tests
         public void Add_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             var user = GetValidUser();
 
             // Act
@@ -108,7 +111,9 @@ namespace UserStorageServices.Tests
         public void Add_ValidUserToSlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
+            var userStorageService = new UserStorageServiceSlave(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             var user = GetValidUser();
 
             // Assert
@@ -119,7 +124,9 @@ namespace UserStorageServices.Tests
         public void Remove_ExistingUser_RemoveOneUser(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -134,7 +141,9 @@ namespace UserStorageServices.Tests
         public void Remove_NotExistingUser_RemoveNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
             var user = GetValidUser();
@@ -150,7 +159,9 @@ namespace UserStorageServices.Tests
         public void Remove_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -161,7 +172,9 @@ namespace UserStorageServices.Tests
         public void Remove_SlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
+            var userStorageService = new UserStorageServiceSlave(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
 
             // Act
             userStorageService.Remove((u) => true);
@@ -171,7 +184,9 @@ namespace UserStorageServices.Tests
         public void Search_InvalidPredicate_ExceptionThrown(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -182,7 +197,9 @@ namespace UserStorageServices.Tests
         public void Search_NotExistingUser_FindNoUsers()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
@@ -197,7 +214,9 @@ namespace UserStorageServices.Tests
         public int Search_ExistingUser_FindSomeUsers(Predicate<User> predicate)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                new NotificationReceiver());
             InitUserStoreageService(userStorageService);
 
             // Act

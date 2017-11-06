@@ -2,7 +2,7 @@ using System.Xml.Serialization;
 
 namespace UserStorageServices.Notification
 {
-    internal class Notification
+    public class Notification
     {
         [XmlIgnore]
         public NotificationType Type { get; set; }

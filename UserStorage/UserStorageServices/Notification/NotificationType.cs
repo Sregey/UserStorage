@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 namespace UserStorageServices.Notification
 {
     [XmlType(IncludeInSchema = false)]
-    internal enum NotificationType
+    public enum NotificationType
     {
         [XmlEnum("addUser")]
         AddUser,
