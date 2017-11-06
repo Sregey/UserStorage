@@ -10,13 +10,11 @@ namespace UserStorageServices.Repositories
     public class UserMemoryRepository : IUserRepository
     {
         private readonly UserValidator userValidator;
-        private readonly IdGenerator idGenerator;
 
         public UserMemoryRepository()
         {
             Users = new List<User>();
             userValidator = new UserValidator();
-            idGenerator = new IdGenerator();
         }
 
         protected IList<User> Users { get; set; }
@@ -39,8 +37,6 @@ namespace UserStorageServices.Repositories
         public void Set(User user)
         {
             this.userValidator.Validate(user);
-
-            user.Id = this.idGenerator.Generate();
 
             Users.Add(user);
         }
