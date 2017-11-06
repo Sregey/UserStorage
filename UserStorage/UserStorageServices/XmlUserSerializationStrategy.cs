@@ -10,38 +10,43 @@ namespace UserStorageServices
 {
     public class XmlUserSerializationStrategy : IUserSerializationStrategy
     {
-        public void SerializeUsers(string repositoryFileName, List<User> users)
+        public void SerializeUsers(string repositoryFileName, DataSetForUserRepository dataSet)
         {
             if (string.IsNullOrWhiteSpace(repositoryFileName))
             {
                 throw new ArgumentException(nameof(repositoryFileName));
             }
 
-            if (users == null)
+            if (dataSet == null)
             {
-                throw new ArgumentNullException(nameof(users));
+                throw new ArgumentNullException(nameof(dataSet));
             }
 
-            XmlSerializer formatter = new XmlSerializer(typeof(List<User>));
-            
+            if (dataSet.Users == null)
+            {
+                throw new ArgumentNullException(nameof(dataSet.Users));
+            }
+
+            XmlSerializer formatter = new XmlSerializer(typeof(DataSetForUserRepository));
+
             using (FileStream fs = new FileStream(repositoryFileName, FileMode.Create))
             {
-                formatter.Serialize(fs, users);
+                formatter.Serialize(fs, dataSet);
             }
         }
 
-        public List<User> DeserializeUsers(string repositoryFileName)
+        public DataSetForUserRepository DeserializeUsers(string repositoryFileName)
         {
             if (!File.Exists(repositoryFileName))
             {
-                return new List<User>();
+                return new DataSetForUserRepository(new List<User>(), new Guid());
             }
 
-            XmlSerializer formatter = new XmlSerializer(typeof(List<User>));
+            XmlSerializer formatter = new XmlSerializer(typeof(DataSetForUserRepository));
 
             using (FileStream fs = new FileStream(repositoryFileName, FileMode.Open))
             {
-                return (List<User>)formatter.Deserialize(fs);
+                return (DataSetForUserRepository)formatter.Deserialize(fs);
             }
         }
     }

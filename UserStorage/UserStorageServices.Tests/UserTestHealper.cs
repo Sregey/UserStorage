@@ -18,18 +18,21 @@ namespace UserStorageServices.Tests
             {
                 new User
                 {
+                    Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Age = 10,
                 },
                 new User
                 {
+                    Id = new Guid("00000000-0000-0000-0000-000000000002"),
                     FirstName = "FirstName2",
                     LastName = "LastName2",
                     Age = 20,
                 },
                 new User
                 {
+                    Id = new Guid("00000000-0000-0000-0000-000000000003"),
                     FirstName = "FirstName1",
                     LastName = "LastName2",
                     Age = 15,

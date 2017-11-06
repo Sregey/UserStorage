@@ -8,8 +8,8 @@ namespace UserStorageServices
 {
     public interface IUserSerializationStrategy
     {
-        void SerializeUsers(string repositoryFileName, List<User> users);
+        void SerializeUsers(string repositoryFileName, DataSetForUserRepository dataSet);
 
-        List<User> DeserializeUsers(string repositoryFileName);
+        DataSetForUserRepository DeserializeUsers(string repositoryFileName);
     }
 }

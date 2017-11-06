@@ -20,7 +20,7 @@ namespace UserStorageServices
                 this.AddSubscriber(subscriber);
             }
 
-            this.idGenerator = new IdGenerator();
+            this.idGenerator = new IdGenerator(userRepository.LastId);
             this.userValidator = new UserValidator();
         }
 

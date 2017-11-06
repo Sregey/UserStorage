@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryUserSerializationStrategy.cs" />
+    <Compile Include="DataSetForUserRepository.cs" />
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />

@@ -7,6 +7,8 @@ namespace UserStorageServices.Repositories
     {
         int Count { get; }
 
+        Guid LastId { get; }
+
         void Start();
 
         void Stop();

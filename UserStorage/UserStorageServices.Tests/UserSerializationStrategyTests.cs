@@ -45,9 +45,10 @@ namespace UserStorageServices.Tests
         {
             // Arrange
             var users = UserTestHealper.Users;
+            var lastId = users.Last().Id;
 
             // Act
-            userSerializer.SerializeUsers(actualSerializePath, users);
+            userSerializer.SerializeUsers(actualSerializePath, new DataSetForUserRepository(users, lastId));
 
             // Assert
             FileAssert.AreEqual(expectedPath, actualSerializePath);
@@ -60,10 +61,10 @@ namespace UserStorageServices.Tests
             var users = UserTestHealper.Users;
 
             // Act
-            var actualUsers = userSerializer.DeserializeUsers(expectedPath);
+            var dataSet = userSerializer.DeserializeUsers(expectedPath);
 
             // Assert
-            UserTestHealper.AssertAreEqual(users, actualUsers, UserTestHealper.CompareUsers);
+            UserTestHealper.AssertAreEqual(users, dataSet.Users, UserTestHealper.CompareUsers);
         }
     }
 }

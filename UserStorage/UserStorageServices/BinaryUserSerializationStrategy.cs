@@ -12,16 +12,21 @@ namespace UserStorageServices
 {
     public class BinaryUserSerializationStrategy : IUserSerializationStrategy
     {
-        public void SerializeUsers(string repositoryFileName, List<User> users)
+        public void SerializeUsers(string repositoryFileName, DataSetForUserRepository dataSet)
         {
             if (string.IsNullOrWhiteSpace(repositoryFileName))
             {
                 throw new ArgumentException(nameof(repositoryFileName));
             }
 
-            if (users == null)
+            if (dataSet == null)
             {
-                throw new ArgumentNullException(nameof(users));
+                throw new ArgumentNullException(nameof(dataSet));
+            }
+
+            if (dataSet.Users == null)
+            {
+                throw new ArgumentNullException(nameof(dataSet.Users));
             }
 
             FileStream fs = new FileStream(repositoryFileName, FileMode.Create);
@@ -29,7 +34,7 @@ namespace UserStorageServices
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
-                formatter.Serialize(fs, users);
+                formatter.Serialize(fs, dataSet);
             }
             catch (SerializationException e)
             {
@@ -42,11 +47,11 @@ namespace UserStorageServices
             }
         }
 
-        public List<User> DeserializeUsers(string repositoryFileName)
+        public DataSetForUserRepository DeserializeUsers(string repositoryFileName)
         {
             if (!File.Exists(repositoryFileName))
             {
-                return new List<User>();
+                return new DataSetForUserRepository(new List<User>(), Guid.Empty);
             }
 
             FileStream fs = new FileStream(repositoryFileName, FileMode.Open);
@@ -54,7 +59,7 @@ namespace UserStorageServices
             {
                 BinaryFormatter formatter = new BinaryFormatter();
 
-                return (List<User>)formatter.Deserialize(fs);
+                return (DataSetForUserRepository)formatter.Deserialize(fs);
             }
             catch (SerializationException e)
             {

@@ -19,17 +19,20 @@ namespace UserStorageServices.Repositories
         public UserDiskRepository(string repositoryFileName)
         {
             this.repositoryFileName = repositoryFileName;
-            this.userSerializationStrategy = new XmlUserSerializationStrategy();
+            this.userSerializationStrategy = new BinaryUserSerializationStrategy();
+            Start();
         }
 
         public override void Start()
         {
-            Users = userSerializationStrategy.DeserializeUsers(repositoryFileName);
+            var dataSet = userSerializationStrategy.DeserializeUsers(repositoryFileName);
+            Users = dataSet.Users;
+            lastId = dataSet.LastId;
         }
 
         public override void Stop()
         {
-            userSerializationStrategy.SerializeUsers(repositoryFileName, (List<User>)Users);
+            userSerializationStrategy.SerializeUsers(repositoryFileName, new DataSetForUserRepository((List<User>)Users, lastId));
         }
     }
 }

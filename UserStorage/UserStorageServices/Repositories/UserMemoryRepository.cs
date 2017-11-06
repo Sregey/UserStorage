@@ -10,6 +10,7 @@ namespace UserStorageServices.Repositories
     public class UserMemoryRepository : IUserRepository
     {
         private readonly UserValidator userValidator;
+        protected Guid lastId;
 
         public UserMemoryRepository()
         {
@@ -20,6 +21,8 @@ namespace UserStorageServices.Repositories
         protected IList<User> Users { get; set; }
 
         public int Count => Users.Count;
+
+        public Guid LastId => lastId;
 
         public virtual void Start()
         {
@@ -37,6 +40,7 @@ namespace UserStorageServices.Repositories
         public void Set(User user)
         {
             this.userValidator.Validate(user);
+            lastId = user.Id;
 
             Users.Add(user);
         }
