@@ -6,6 +6,6 @@ namespace UserStorageServices.Notification
     {
         event Action<NotificationContainer> Received;
 
-        void Receive(NotificationContainer notificationContainer);
+        void Receive(string serializedNotification);
     }
 }

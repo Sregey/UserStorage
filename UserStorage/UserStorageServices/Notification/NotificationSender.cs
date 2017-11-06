@@ -5,10 +5,12 @@ namespace UserStorageServices.Notification
     internal class NotificationSender : INotificationSender
     {
         private readonly INotificationReceiver receiver;
+        private readonly INotificationSerializer serializer;
 
         public NotificationSender(INotificationReceiver receiver)
         {
             this.receiver = receiver;
+            serializer = new XmlNotificationSerializer();
         }
 
         public void Send(NotificationContainer container)
@@ -18,7 +20,7 @@ namespace UserStorageServices.Notification
                 throw new ArgumentNullException(nameof(container));
             }
 
-            receiver.Receive(container);
+            receiver.Receive(serializer.Serialize(container));
         }
     }
 }

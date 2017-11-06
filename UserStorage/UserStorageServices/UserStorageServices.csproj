@@ -51,10 +51,12 @@
     <Compile Include="Notification\DeleteUserActionNotification.cs" />
     <Compile Include="Notification\INotificationReceiver.cs" />
     <Compile Include="Notification\INotificationSender.cs" />
+    <Compile Include="Notification\INotificationSerializer.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Notification\NotificationContainer.cs" />
     <Compile Include="Notification\NotificationReceiver.cs" />
     <Compile Include="Notification\NotificationSender.cs" />
+    <Compile Include="Notification\XmlNotificationSerializer.cs" />
     <Compile Include="Notification\NotificationType.cs" />
     <Compile Include="Repositories\BinaryUserSerializationStrategy.cs" />
     <Compile Include="Repositories\DataSetForUserRepository.cs" />

@@ -4,20 +4,28 @@ namespace UserStorageServices.Notification
 {
     public class NotificationReceiver : INotificationReceiver
     {
-        public event Action<NotificationContainer> Received = delegate { }; 
+        private readonly INotificationSerializer serializer;
 
-        public void Receive(NotificationContainer container)
+        public NotificationReceiver()
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
-            OnReceived(container);
+            serializer = new XmlNotificationSerializer();
         }
 
-        protected virtual void OnReceived(NotificationContainer container)
+        public event Action<NotificationContainer> Received = delegate { }; 
+
+        public void Receive(string serializedNotification)
         {
+            if (serializedNotification == null)
+            {
+                throw new ArgumentNullException(nameof(serializedNotification));
+            }
+
+            OnReceived(serializedNotification);
+        }
+
+        protected virtual void OnReceived(string serializedNotification)
+        {
+            var container = serializer.Deserialize(serializedNotification);
             Received(container);
         }
     }

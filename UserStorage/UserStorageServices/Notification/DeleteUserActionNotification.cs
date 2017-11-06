@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace UserStorageServices.Notification
 {
-    internal class DeleteUserActionNotification
+    public class DeleteUserActionNotification
     {
         [XmlElement("userId")]
         public Guid UserId { get; set; }
