@@ -45,10 +45,10 @@ namespace UserStorageServices.UserStorage
             {
                 if (notification.Type == NotificationType.AddUser)
                 {
-                    var action = (AddUserActionNotification) notification.Action;
+                    var action = (AddUserActionNotification)notification.Action;
                     UserRepository.Set(action.User);
                 }
-                else if(notification.Type == NotificationType.DeleteUser)
+                else if (notification.Type == NotificationType.DeleteUser)
                 {
                     var action = (DeleteUserActionNotification)notification.Action;
                     UserRepository.Delete((u) => u.Id == action.UserId);

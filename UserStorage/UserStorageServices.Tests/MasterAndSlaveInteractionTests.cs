@@ -7,7 +7,7 @@ namespace UserStorageServices.Tests
 {
     using static UserTestHealper;
 
-    class MasterAndSlaveInteractionTests
+    internal class MasterAndSlaveInteractionTests
     {
         [Test]
         public void AddUsersToMaster_SameUsersAppearInSlaves()

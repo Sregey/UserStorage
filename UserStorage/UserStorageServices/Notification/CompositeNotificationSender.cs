@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageServices.Notification
 {
-    class CompositeNotificationSender : INotificationSender
+    internal class CompositeNotificationSender : INotificationSender
     {
         private readonly INotificationReceiver[] receivers;
         private readonly INotificationSerializer serializer;

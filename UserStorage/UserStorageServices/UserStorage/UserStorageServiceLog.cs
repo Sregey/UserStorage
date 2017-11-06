@@ -6,7 +6,7 @@ namespace UserStorageServices.UserStorage
 {
     public class UserStorageServiceLog : UserStorageServiceDecorator
     {
-        private  static readonly BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
+        private static readonly BooleanSwitch EnableLogging = new BooleanSwitch("EnableLogging ", "Enable or disable logging.");
 
         public UserStorageServiceLog(IUserStorageService userStorageService)
             : base(userStorageService)
@@ -36,7 +36,7 @@ namespace UserStorageServices.UserStorage
 
         private void Log(string message)
         {
-            if (enableLogging.Enabled)
+            if (EnableLogging.Enabled)
             {
                 Trace.WriteLine(message);
             }

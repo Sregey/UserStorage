@@ -15,7 +15,7 @@ namespace UserStorageServices.UserStorage
         public UserStorageServiceMaster(IUserRepository userRepository, INotificationReceiver receiver)
             : base(userRepository)
         {
-            notificationSender = new CompositeNotificationSender(new [] {receiver});
+            notificationSender = new CompositeNotificationSender(new[] { receiver });
 
             idGenerator = new IdGenerator(userRepository.LastId);
             userValidator = new UserValidator();
@@ -55,7 +55,7 @@ namespace UserStorageServices.UserStorage
                     new Notification.Notification()
                     {
                         Type = NotificationType.AddUser,
-                        Action = new AddUserActionNotification() {User = user}
+                        Action = new AddUserActionNotification() { User = user }
                     }
                 }
             });
@@ -70,7 +70,7 @@ namespace UserStorageServices.UserStorage
                     new Notification.Notification()
                     {
                         Type = NotificationType.DeleteUser,
-                        Action = new DeleteUserActionNotification() {UserId = userId}
+                        Action = new DeleteUserActionNotification() { UserId = userId }
                     }
                 }
             });

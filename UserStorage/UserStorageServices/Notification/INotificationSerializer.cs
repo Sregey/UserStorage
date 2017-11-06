@@ -1,6 +1,6 @@
 namespace UserStorageServices.Notification
 {
-    interface INotificationSerializer
+    internal interface INotificationSerializer
     {
         string Serialize(NotificationContainer container);
 
