@@ -6,10 +6,6 @@ namespace UserStorageServices
     [Serializable]
     public class DataSetForUserRepository
     {
-        public List<User> Users { get; set; }
-
-        public Guid LastId { get; set; }
-
         public DataSetForUserRepository()
         {
         }
@@ -19,5 +15,9 @@ namespace UserStorageServices
             Users = users;
             LastId = lastId;
         }
+
+        public List<User> Users { get; set; }
+
+        public Guid LastId { get; set; }
     }
 }

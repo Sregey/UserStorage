@@ -1,13 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UserStorageServices.Repositories
 {
@@ -27,12 +18,12 @@ namespace UserStorageServices.Repositories
         {
             var dataSet = userSerializationStrategy.DeserializeUsers(repositoryFileName);
             Users = dataSet.Users;
-            lastId = dataSet.LastId;
+            LastGuid = dataSet.LastId;
         }
 
         public override void Stop()
         {
-            userSerializationStrategy.SerializeUsers(repositoryFileName, new DataSetForUserRepository((List<User>)Users, lastId));
+            userSerializationStrategy.SerializeUsers(repositoryFileName, new DataSetForUserRepository((List<User>)Users, LastGuid));
         }
     }
 }

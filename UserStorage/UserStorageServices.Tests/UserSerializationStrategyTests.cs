@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace UserStorageServices.Tests
 {
-    class UserSerializationStrategyTests
+    internal class UserSerializationStrategyTests
     {
         private string expectedXmlSerializePath = "test_xml_repository.bin";
         private string expectedBinSerializePath = "test_bin_repository.bin";

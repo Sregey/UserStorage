@@ -9,7 +9,7 @@ namespace UserStorageServices.Tests
 {
     using static UserTestHealper;
 
-    public class UserStorageServiceTests
+    internal class UserStorageServiceTests
     {
         public IEnumerable<TestCaseData> InvalidUsers
         {
@@ -83,7 +83,7 @@ namespace UserStorageServices.Tests
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(),null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
 
             // Act
             userStorageService.Add(user);
@@ -93,7 +93,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUser_StorageCountIs1()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(),null);
+            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
             var user = GetValidUser();
 
             // Act

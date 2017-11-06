@@ -17,11 +17,11 @@ namespace UserStorageServices
             slaveServices = slaveServices ?? Enumerable.Empty<INotificationSubscriber>();
             foreach (var subscriber in slaveServices)
             {
-                this.AddSubscriber(subscriber);
+                AddSubscriber(subscriber);
             }
 
-            this.idGenerator = new IdGenerator(userRepository.LastId);
-            this.userValidator = new UserValidator();
+            idGenerator = new IdGenerator(userRepository.LastId);
+            userValidator = new UserValidator();
         }
 
         private event EventHandler<UserStorageModifiedEventArgs> UserAdded = delegate { };
@@ -32,11 +32,11 @@ namespace UserStorageServices
 
         public override void Add(User user)
         {
-            this.userValidator.Validate(user);
-            user.Id = this.idGenerator.Generate();
+            userValidator.Validate(user);
+            user.Id = idGenerator.Generate();
             UserRepository.Set(user);
 
-            this.OnUserAdded(new UserStorageModifiedEventArgs(user));
+            OnUserAdded(new UserStorageModifiedEventArgs(user));
         }
 
         public override void Remove(Predicate<User> predicate)
@@ -49,7 +49,7 @@ namespace UserStorageServices
             var removedUser = UserRepository.Delete(predicate);
             if (removedUser != null)
             {
-                this.OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
+                OnUserRemoved(new UserStorageModifiedEventArgs(removedUser));
             }
         }
 
@@ -60,8 +60,8 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(subscriber));
             }
 
-            this.UserAdded += subscriber.UserAdded;
-            this.UserRemoved += subscriber.UserRemoved;
+            UserAdded += subscriber.UserAdded;
+            UserRemoved += subscriber.UserRemoved;
         }
 
         public void RemoveSubscriber(INotificationSubscriber subscriber)
@@ -71,18 +71,18 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(subscriber));
             }
 
-            this.UserAdded -= subscriber.UserAdded;
-            this.UserRemoved -= subscriber.UserRemoved;
+            UserAdded -= subscriber.UserAdded;
+            UserRemoved -= subscriber.UserRemoved;
         }
 
         protected virtual void OnUserAdded(UserStorageModifiedEventArgs args)
         {
-            this.UserAdded(this, args);
+            UserAdded(this, args);
         }
 
         protected virtual void OnUserRemoved(UserStorageModifiedEventArgs args)
         {
-            this.UserRemoved(this, args);
+            UserRemoved(this, args);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace UserStorageServices.Tests
 {
     using static UserTestHealper;
 
-    class UserMemoryRepositoryTests
+    internal class UserMemoryRepositoryTests
     {
         public IEnumerable<TestCaseData> InvalidUsers
         {

@@ -6,10 +6,8 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.Tests
 {
-    static class UserTestHealper
+    internal static class UserTestHealper
     {
-        public static List<User> Users { get; }
-
         static UserTestHealper()
         {
             Users = new List<User>
@@ -38,6 +36,8 @@ namespace UserStorageServices.Tests
             };
         }
 
+        public static List<User> Users { get; }
+
         public static void AssertAreEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, Comparison<T> comparison)
         {
             var expectedUsers = expected.ToArray();
@@ -62,19 +62,27 @@ namespace UserStorageServices.Tests
             int result;
             result = user1.Id.CompareTo(user2.Id);
             if (result != 0)
+            {
                 return result;
+            }
 
             result = user1.FirstName.CompareTo(user2.FirstName);
             if (result != 0)
+            {
                 return result;
+            }
 
             result = user1.LastName.CompareTo(user2.LastName);
             if (result != 0)
+            {
                 return result;
+            }
 
             result = user1.Age.CompareTo(user2.Age);
             if (result != 0)
+            {
                 return result;
+            }
 
             return result;
         }

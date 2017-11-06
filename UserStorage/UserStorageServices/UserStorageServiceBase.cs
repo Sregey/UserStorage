@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UserStorageServices.Repositories;
 
 namespace UserStorageServices
@@ -10,11 +9,9 @@ namespace UserStorageServices
     /// </summary>
     public abstract class UserStorageServiceBase : IUserStorageService
     {
-        protected IUserRepository UserRepository { get; }
-
         protected UserStorageServiceBase(IUserRepository userRepository)
         {
-            this.UserRepository = userRepository;
+            UserRepository = userRepository;
         }
 
         /// <summary>
@@ -28,6 +25,8 @@ namespace UserStorageServices
         /// </summary>
         /// <returns>An amount of Users in the storage.</returns>
         public int Count => UserRepository.Count;
+
+        protected IUserRepository UserRepository { get; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.

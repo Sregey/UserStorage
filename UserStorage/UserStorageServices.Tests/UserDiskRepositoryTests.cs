@@ -5,7 +5,7 @@ namespace UserStorageServices.Tests
 {
     using static UserTestHealper;
 
-    class UserDiskRepository
+    internal class UserDiskRepository
     {
         private const string RepositoryFileName = "test_repository.bin";
 

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserStorageServices.Validation;
 
 namespace UserStorageServices.Repositories
@@ -10,7 +8,6 @@ namespace UserStorageServices.Repositories
     public class UserMemoryRepository : IUserRepository
     {
         private readonly UserValidator userValidator;
-        protected Guid lastId;
 
         public UserMemoryRepository()
         {
@@ -18,11 +15,13 @@ namespace UserStorageServices.Repositories
             userValidator = new UserValidator();
         }
 
-        protected IList<User> Users { get; set; }
-
         public int Count => Users.Count;
 
-        public Guid LastId => lastId;
+        public Guid LastId => LastGuid;
+
+        protected Guid LastGuid { get; set; }
+
+        protected IList<User> Users { get; set; }
 
         public virtual void Start()
         {
@@ -39,8 +38,8 @@ namespace UserStorageServices.Repositories
 
         public void Set(User user)
         {
-            this.userValidator.Validate(user);
-            lastId = user.Id;
+            userValidator.Validate(user);
+            LastGuid = user.Id;
 
             Users.Add(user);
         }
@@ -53,9 +52,9 @@ namespace UserStorageServices.Repositories
             }
 
             int i;
-            for (i = 0; i < this.Count; i++)
+            for (i = 0; i < Count; i++)
             {
-                if (predicate(this.Users[i]))
+                if (predicate(Users[i]))
                 {
                     break;
                 }
