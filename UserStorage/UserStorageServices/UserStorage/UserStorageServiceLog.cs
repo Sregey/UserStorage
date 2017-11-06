@@ -4,12 +4,11 @@ using System.Diagnostics;
 
 namespace UserStorageServices.UserStorage
 {
-    public abstract class UserStorageServiceLog<T> : UserStorageServiceDecorator<T>
-        where T : IUserStorageService
+    public class UserStorageServiceLog : UserStorageServiceDecorator
     {
-        private static BooleanSwitch enableLogging = new BooleanSwitch("enableLogging ", "Enable or disable logging.");
+        private static readonly BooleanSwitch EnableLogging = new BooleanSwitch("EnableLogging ", "Enable or disable logging.");
 
-        protected UserStorageServiceLog(IUserStorageService userStorageService)
+        public UserStorageServiceLog(IUserStorageService userStorageService)
             : base(userStorageService)
         {
         }
@@ -37,7 +36,7 @@ namespace UserStorageServices.UserStorage
 
         private void Log(string message)
         {
-            if (enableLogging.Enabled)
+            if (EnableLogging.Enabled)
             {
                 Trace.WriteLine(message);
             }

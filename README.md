@@ -431,31 +431,31 @@ Modify tests, run tests, review and commit.
 
 ## Step 7 - Notify
 
-- [ ] New branch "step7".
+- [x] New branch "step7".
 
-- [ ] Add [code from this gist](https://gist.github.com/epam-lab/1afc6a58e5be16cc4282a1b98728a4c2) to your project.
+- [x] Add [code from this gist](https://gist.github.com/epam-lab/1afc6a58e5be16cc4282a1b98728a4c2) to your project.
 
 Run tests, review and commit.
 
-- [ ] Add new implementation and refactor existed functionality:
+- [x] Add new implementation and refactor existed functionality:
 
 ![Master-Slave Notifications](images/MasterSlaveNotifications.png "Master-Slave Notifications")
 
 Add new tests, run tests, review and commit.
 
-- [ ] Refactor you code: serialize _NotificationContainer_ to XML and pass it to receiver as a string.
+- [x] Refactor you code: serialize _NotificationContainer_ to XML and pass it to receiver as a string.
 
 ![Master-Slave Serialize Notifications](images/MasterSlaveSerializeNotifications.png "Master-Slave Serialize Notifications")
 
 Modify tests, run tests, review and commit.
 
-- [ ] Composite design pattern: create a composite notification sender to allow MASTER NODE to send notifications to a variable amount of receivers.
+- [x] Composite design pattern: create a composite notification sender to allow MASTER NODE to send notifications to a variable amount of receivers.
 
 ![Composite Sender](images/MasterSlaveCompositeSender.png "Master-Slave Composite Sender")
 
 Add new tests, run tests, review and commit.
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step7". Merge "step7" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step7". Merge "step7" into master. Publish.
 
 
 ## Step 8 - Application Domains

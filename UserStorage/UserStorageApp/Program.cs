@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
+using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
@@ -21,18 +22,18 @@ namespace UserStorageApp
             {
                 host.SmartOpen();
 
+                INotificationReceiver receiver = new NotificationReceiver();
+
                 var slaveServices = new IUserStorageService[]
                 {
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
-                    new UserStorageServiceSlaveLog(new UserStorageServiceSlave(new UserMemoryRepository())),
+                    new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
+                    new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
                 };
-
-                var subscribers = slaveServices.Select((s) => (INotificationSubscriber)s);
 
                 var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
                 var userRepositoryForMaster = new UserDiskRepository(repositoryFileName);
-                var storageService = new UserStorageServiceMaster(userRepositoryForMaster, subscribers);
-                var client = new Client(new UserStorageServiceMasterLog(storageService), userRepositoryForMaster);
+                var storageService = new UserStorageServiceMaster(userRepositoryForMaster, receiver);
+                var client = new Client(new UserStorageServiceLog(storageService), userRepositoryForMaster);
 
                 client.Run();
 

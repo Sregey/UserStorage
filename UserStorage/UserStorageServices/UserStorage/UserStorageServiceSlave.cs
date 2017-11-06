@@ -1,15 +1,20 @@
 using System;
+using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 
 namespace UserStorageServices.UserStorage
 {
-    public class UserStorageServiceSlave : UserStorageServiceBase, INotificationSubscriber
+    public class UserStorageServiceSlave : UserStorageServiceBase
     {
         private const string NotSupportedMessage = "This service is slave";
 
-        public UserStorageServiceSlave(IUserRepository userRepository)
+        private readonly INotificationReceiver notificationReceiver;
+
+        public UserStorageServiceSlave(IUserRepository userRepository, INotificationReceiver notificationReceiver)
             : base(userRepository)
         {
+            this.notificationReceiver = notificationReceiver;
+            this.notificationReceiver.Received += NotificationReceived;
         }
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.SlaveMode;
@@ -24,24 +29,31 @@ namespace UserStorageServices.UserStorage
             throw new NotSupportedException(NotSupportedMessage);
         }
 
-        public void UserAdded(object sender, UserStorageModifiedEventArgs args)
+        private void NotificationReceived(NotificationContainer container)
         {
-            if (args == null)
+            if (container == null)
             {
-                throw new ArgumentNullException(nameof(args));
+                throw new ArgumentNullException(nameof(container));
             }
 
-            UserRepository.Set(args.User);
-        }
-
-        public void UserRemoved(object sender, UserStorageModifiedEventArgs args)
-        {
-            if (args == null)
+            if (container.Notifications == null)
             {
-                throw new ArgumentNullException(nameof(args));
+                throw new ArgumentNullException(nameof(container.Notifications));
             }
 
-            UserRepository.Delete((u) => u.Id == args.User.Id);
+            foreach (var notification in container.Notifications)
+            {
+                if (notification.Type == NotificationType.AddUser)
+                {
+                    var action = (AddUserActionNotification)notification.Action;
+                    UserRepository.Set(action.User);
+                }
+                else if (notification.Type == NotificationType.DeleteUser)
+                {
+                    var action = (DeleteUserActionNotification)notification.Action;
+                    UserRepository.Delete((u) => u.Id == action.UserId);
+                }
+            }
         }
     }
 }

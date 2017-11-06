@@ -47,25 +47,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Notification\AddUserActionNotification.cs" />
+    <Compile Include="Notification\CompositeNotificationSender.cs" />
+    <Compile Include="Notification\DeleteUserActionNotification.cs" />
+    <Compile Include="Notification\INotificationReceiver.cs" />
+    <Compile Include="Notification\INotificationSender.cs" />
+    <Compile Include="Notification\INotificationSerializer.cs" />
+    <Compile Include="Notification\Notification.cs" />
+    <Compile Include="Notification\NotificationContainer.cs" />
+    <Compile Include="Notification\NotificationReceiver.cs" />
+    <Compile Include="Notification\NotificationSender.cs" />
+    <Compile Include="Notification\XmlNotificationSerializer.cs" />
+    <Compile Include="Notification\NotificationType.cs" />
     <Compile Include="Repositories\BinaryUserSerializationStrategy.cs" />
     <Compile Include="Repositories\DataSetForUserRepository.cs" />
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
     <Compile Include="Repositories\IUserRepositoryManager.cs" />
-    <Compile Include="UserStorage\INotificationSubscriber.cs" />
     <Compile Include="Repositories\IUserSerializationStrategy.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserMemoryRepository.cs" />
     <Compile Include="Repositories\UserDiskRepository.cs" />
-    <Compile Include="UserStorage\UserStorageModifiedEventArgs.cs" />
     <Compile Include="UserStorage\UserStorageServiceDecorator.cs" />
     <Compile Include="UserStorage\UserStorageServiceLog.cs" />
     <Compile Include="UserStorage\UserStorageServiceMaster.cs" />
-    <Compile Include="UserStorage\UserStorageServiceMasterLog.cs" />
     <Compile Include="UserStorage\UserStorageServiceMode.cs" />
     <Compile Include="UserStorage\UserStorageServiceSlave.cs" />
-    <Compile Include="UserStorage\UserStorageServiceSlaveLog.cs" />
     <Compile Include="Validation\AgeValidator.cs" />
     <Compile Include="Validation\FirstNameValidator.cs" />
     <Compile Include="UserStorage\IdGenerator.cs" />
