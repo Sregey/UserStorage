@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace UserStorageServices
+namespace UserStorageServices.Repositories
 {
     public class BinaryUserSerializationStrategy : IUserSerializationStrategy
     {

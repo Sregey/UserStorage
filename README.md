@@ -410,23 +410,23 @@ Refactor, run tests, review and commit.
 
 ## Step 6 - Refactor
 
-- [ ] New branch "step6".
+- [x] New branch "step6".
 
-- [ ] Refactor files in _UserStorageServices_ project: move interfaces and classes related to repository functionality to a separate folder.
-
-Run tests, review and commit.
-
-- [ ] Refactor files in _UserStorageServices_ project: move interfaces and classes related to user storage functionality to a separate folder.
+- [x] Refactor files in _UserStorageServices_ project: move interfaces and classes related to repository functionality to a separate folder.
 
 Run tests, review and commit.
 
-- [ ] Apply ["interface segregation principle" (ISP)](http://sergeyteplyakov.blogspot.com.by/2014/08/interface-segregation-principle.html):
+- [x] Refactor files in _UserStorageServices_ project: move interfaces and classes related to user storage functionality to a separate folder.
+
+Run tests, review and commit.
+
+- [x] Apply ["interface segregation principle" (ISP)](http://sergeyteplyakov.blogspot.com.by/2014/08/interface-segregation-principle.html):
 
 ![Interface Segregation](images/MasterSlaveRepositoryInterfaceSegregation.png "Interface Segregation")
 
 Modify tests, run tests, review and commit.
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step6". Merge "step6" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step6". Merge "step6" into master. Publish.
 
 
 ## Step 7 - Notify

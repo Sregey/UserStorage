@@ -47,36 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryUserSerializationStrategy.cs" />
-    <Compile Include="DataSetForUserRepository.cs" />
+    <Compile Include="Repositories\BinaryUserSerializationStrategy.cs" />
+    <Compile Include="Repositories\DataSetForUserRepository.cs" />
     <Compile Include="Exceptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exceptions\FirstNameIsNullOrEmptyException.cs" />
     <Compile Include="Exceptions\LastNameIsNullOrEmptyException.cs" />
-    <Compile Include="INotificationSubscriber.cs" />
-    <Compile Include="IUserSerializationStrategy.cs" />
+    <Compile Include="Repositories\IUserRepositoryManager.cs" />
+    <Compile Include="UserStorage\INotificationSubscriber.cs" />
+    <Compile Include="Repositories\IUserSerializationStrategy.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserMemoryRepository.cs" />
     <Compile Include="Repositories\UserDiskRepository.cs" />
-    <Compile Include="UserStorageModifiedEventArgs.cs" />
-    <Compile Include="UserStorageServiceDecorator.cs" />
-    <Compile Include="UserStorageServiceLog.cs" />
-    <Compile Include="UserStorageServiceMaster.cs" />
-    <Compile Include="UserStorageServiceMasterLog.cs" />
-    <Compile Include="UserStorageServiceMode.cs" />
-    <Compile Include="UserStorageServiceSlave.cs" />
-    <Compile Include="UserStorageServiceSlaveLog.cs" />
+    <Compile Include="UserStorage\UserStorageModifiedEventArgs.cs" />
+    <Compile Include="UserStorage\UserStorageServiceDecorator.cs" />
+    <Compile Include="UserStorage\UserStorageServiceLog.cs" />
+    <Compile Include="UserStorage\UserStorageServiceMaster.cs" />
+    <Compile Include="UserStorage\UserStorageServiceMasterLog.cs" />
+    <Compile Include="UserStorage\UserStorageServiceMode.cs" />
+    <Compile Include="UserStorage\UserStorageServiceSlave.cs" />
+    <Compile Include="UserStorage\UserStorageServiceSlaveLog.cs" />
     <Compile Include="Validation\AgeValidator.cs" />
     <Compile Include="Validation\FirstNameValidator.cs" />
-    <Compile Include="IdGenerator.cs" />
-    <Compile Include="IIdGenerator.cs" />
-    <Compile Include="IUserStorageService.cs" />
+    <Compile Include="UserStorage\IdGenerator.cs" />
+    <Compile Include="UserStorage\IIdGenerator.cs" />
+    <Compile Include="UserStorage\IUserStorageService.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\LastNameValidator.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserStorageServiceBase.cs" />
+    <Compile Include="UserStorage\UserStorageServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\UserValidator.cs" />
-    <Compile Include="XmlUserSerializationStrategy.cs" />
+    <Compile Include="Repositories\XmlUserSerializationStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

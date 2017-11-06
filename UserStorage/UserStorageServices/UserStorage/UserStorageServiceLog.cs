@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     public abstract class UserStorageServiceLog<T> : UserStorageServiceDecorator<T>
         where T : IUserStorageService

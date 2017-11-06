@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UserStorageServices.Repositories
 {
-    public class UserDiskRepository : UserMemoryRepository
+    public class UserDiskRepository : UserMemoryRepository, IUserRepositoryManager
     {
         private readonly string repositoryFileName;
         private readonly IUserSerializationStrategy userSerializationStrategy;
@@ -14,14 +14,14 @@ namespace UserStorageServices.Repositories
             Start();
         }
 
-        public override void Start()
+        public void Start()
         {
             var dataSet = userSerializationStrategy.DeserializeUsers(repositoryFileName);
             Users = dataSet.Users;
             LastGuid = dataSet.LastId;
         }
 
-        public override void Stop()
+        public void Stop()
         {
             userSerializationStrategy.SerializeUsers(repositoryFileName, new DataSetForUserRepository((List<User>)Users, LastGuid));
         }

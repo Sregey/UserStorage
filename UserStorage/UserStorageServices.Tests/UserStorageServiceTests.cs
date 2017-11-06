@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using UserStorageServices.Exceptions;
 using UserStorageServices.Repositories;
+using UserStorageServices.UserStorage;
 
 namespace UserStorageServices.Tests
 {

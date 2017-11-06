@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<DataSetForUserRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Users>
+    <User>
+      <Id>00000000-0000-0000-0000-000000000001</Id>
+      <FirstName>FirstName1</FirstName>
+      <LastName>LastName1</LastName>
+      <Age>10</Age>
+    </User>
+    <User>
+      <Id>00000000-0000-0000-0000-000000000002</Id>
+      <FirstName>FirstName2</FirstName>
+      <LastName>LastName2</LastName>
+      <Age>20</Age>
+    </User>
+    <User>
+      <Id>00000000-0000-0000-0000-000000000003</Id>
+      <FirstName>FirstName1</FirstName>
+      <LastName>LastName2</LastName>
+      <Age>15</Age>
+    </User>
+  </Users>
+  <LastId>00000000-0000-0000-0000-000000000003</LastId>
+</DataSetForUserRepository>

@@ -1,6 +1,6 @@
 using System;
 
-namespace UserStorageServices
+namespace UserStorageServices.UserStorage
 {
     internal class IdGenerator : IIdGenerator
     {

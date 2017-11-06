@@ -9,10 +9,6 @@ namespace UserStorageServices.Repositories
 
         Guid LastId { get; }
 
-        void Start();
-
-        void Stop();
-
         User Get(Guid id);
 
         void Set(User user);

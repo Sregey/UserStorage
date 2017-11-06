@@ -1,5 +1,6 @@
 using UserStorageServices;
 using UserStorageServices.Repositories;
+using UserStorageServices.UserStorage;
 
 namespace UserStorageApp
 {
@@ -9,15 +10,15 @@ namespace UserStorageApp
     public class Client
     {
         private readonly IUserStorageService userStorageService;
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepositoryManager userRepositoryManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class.
         /// </summary>
-        public Client(IUserStorageService userStorageService, IUserRepository userRepository)
+        public Client(IUserStorageService userStorageService, IUserRepositoryManager userRepositoryManager)
         {
             this.userStorageService = userStorageService;
-            this.userRepository = userRepository;
+            this.userRepositoryManager = userRepositoryManager;
         }
 
         /// <summary>
@@ -25,22 +26,22 @@ namespace UserStorageApp
         /// </summary>
         public void Run()
         {
-            userRepository.Start();
+            userRepositoryManager.Start();
             userStorageService.Add(new User
             {
                 FirstName = "Alex",
                 LastName = "Black",
                 Age = 25
             });
-            userRepository.Stop();
+            userRepositoryManager.Stop();
 
-            userRepository.Start();
+            userRepositoryManager.Start();
             userStorageService.Remove((u) => u.FirstName == "Bill");
-            userRepository.Stop();
+            userRepositoryManager.Stop();
 
-            userRepository.Start();
+            userRepositoryManager.Start();
             userStorageService.Search((u) => u.FirstName == "Alex");
-            userRepository.Stop();
+            userRepositoryManager.Stop();
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace UserStorageServices
+namespace UserStorageServices.Repositories
 {
     public interface IUserSerializationStrategy
     {
