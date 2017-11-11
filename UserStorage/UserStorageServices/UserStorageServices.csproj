@@ -69,6 +69,7 @@
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserMemoryRepository.cs" />
     <Compile Include="Repositories\UserDiskRepository.cs" />
+    <Compile Include="UserStorage\MyApplicationServiceAttribute.cs" />
     <Compile Include="UserStorage\UserStorageServiceDecorator.cs" />
     <Compile Include="UserStorage\UserStorageServiceLog.cs" />
     <Compile Include="UserStorage\UserStorageServiceMaster.cs" />

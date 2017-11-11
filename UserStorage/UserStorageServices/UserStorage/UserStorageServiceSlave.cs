@@ -4,6 +4,7 @@ using UserStorageServices.Repositories;
 
 namespace UserStorageServices.UserStorage
 {
+    [MyApplicationService("UserStorageSlave")]
     public class UserStorageServiceSlave : UserStorageServiceBase
     {
         private const string NotSupportedMessage = "This service is slave";
