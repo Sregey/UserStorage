@@ -15,7 +15,7 @@ namespace UserStorageApp
                 masterType.Assembly.FullName, 
                 masterType.FullName);
 
-            masterAction.Run(2);
+            masterAction.Run();
             Client = new Client(masterAction.MasterService, masterAction.RepositoryManager);
         }
     }

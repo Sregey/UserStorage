@@ -1,14 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using ServiceConfigurationSection;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
+using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
 namespace UserStorageApp
 {
     internal class MasterDomainAction : MarshalByRefObject
     {
-        private SlaveDomainAction[] slaveActions;
+        private List<SlaveDomainAction> slaveActions;
 
         public IUserRepositoryManager RepositoryManager { get; private set; }
 
@@ -16,9 +19,9 @@ namespace UserStorageApp
 
         public IUserStorageService this[int i] => slaveActions[i].SlaveService;
 
-        public void Run(int countOfSlaveServices)
+        public void Run()
         {
-            RunSlaves(countOfSlaveServices);
+           RunSlaves();
 
             var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
             var repository = new UserDiskRepository(repositoryFileName);
@@ -28,18 +31,25 @@ namespace UserStorageApp
             MasterService = new UserStorageServiceLog(storageService);
         }
 
-        private void RunSlaves(int count)
+        private void RunSlaves()
         {
-            slaveActions = new SlaveDomainAction[count];
-            for (int i = 0; i < count; i++)
-            {
-                var slaveDomain = AppDomain.CreateDomain("SlaveDomain_" + i);
+            var serviceConfiguration = (ServiceConfiguration)ConfigurationManager.GetSection("serviceConfiguration");
 
-                var slvaeType = typeof(SlaveDomainAction);
-                slaveActions[i] = (SlaveDomainAction)slaveDomain.CreateInstanceAndUnwrap(
-                    slvaeType.Assembly.FullName,
-                    slvaeType.FullName);
-                slaveActions[i].Run();
+            slaveActions = new List<SlaveDomainAction>();
+            foreach (var serviceInstance in serviceConfiguration.ServiceInstances)
+            {
+                if (serviceInstance.Mode == ServiceInstanceMode.Slave)
+                {
+                    var slaveDomain = AppDomain.CreateDomain("SlaveDomain_" + slaveActions.Count);
+
+                    var slvaeType = typeof(SlaveDomainAction);
+                    var slaveAction = (SlaveDomainAction)slaveDomain.CreateInstanceAndUnwrap(
+                        slvaeType.Assembly.FullName,
+                        slvaeType.FullName);
+                    slaveAction.Run();
+
+                    slaveActions.Add(slaveAction);
+                }
             }
         }
     }
