@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UserStorageServices.Exceptions;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
 
@@ -16,28 +17,120 @@ namespace UserStorageServices.Tests
                 new User
                 {
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                    FirstName = "FirstName1",
-                    LastName = "LastName1",
+                    FirstName = "Alex",
+                    LastName = "Black",
                     Age = 10,
                 },
                 new User
                 {
                     Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                    FirstName = "FirstName2",
-                    LastName = "LastName2",
+                    FirstName = "Jack",
+                    LastName = "Stone",
                     Age = 20,
                 },
                 new User
                 {
                     Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                    FirstName = "FirstName1",
-                    LastName = "LastName2",
+                    FirstName = "Alex",
+                    LastName = "Stone",
                     Age = 15,
                 },
             };
         }
 
         public static List<User> Users { get; }
+
+        public static IEnumerable<TestCaseData> InvalidUsers
+        {
+            get
+            {
+                User user;
+
+                yield return new TestCaseData(null).Throws(typeof(ArgumentNullException));
+
+                user = GetValidUser();
+                user.FirstName = null;
+                yield return new TestCaseData(user).Throws(typeof(FirstNameException));
+
+                user = GetValidUser();
+                user.FirstName = "  ";
+                yield return new TestCaseData(user).Throws(typeof(FirstNameException));
+
+                user = GetValidUser();
+                user.FirstName = new String('x', 21);
+                yield return new TestCaseData(user).Throws(typeof(FirstNameException));
+
+                user = GetValidUser();
+                user.FirstName = "Alex22";
+                yield return new TestCaseData(user).Throws(typeof(FirstNameException));
+
+                user = GetValidUser();
+                user.LastName = null;
+                yield return new TestCaseData(user).Throws(typeof(LastNameException));
+
+                user = GetValidUser();
+                user.LastName = "   ";
+                yield return new TestCaseData(user).Throws(typeof(LastNameException));
+
+                user = GetValidUser();
+                user.LastName = new String('x', 26);
+                yield return new TestCaseData(user).Throws(typeof(LastNameException));
+
+                user = GetValidUser();
+                user.LastName = "Black22";
+                yield return new TestCaseData(user).Throws(typeof(LastNameException));
+
+                user = GetValidUser();
+                user.Age = -1;
+                yield return new TestCaseData(user).Throws(typeof(AgeException));
+
+                user = GetValidUser();
+                user.Age = 2;
+                yield return new TestCaseData(user).Throws(typeof(AgeException));
+
+                user = GetValidUser();
+                user.Age = 131;
+                yield return new TestCaseData(user).Throws(typeof(AgeException));
+            }
+        }
+
+        public static IEnumerable<TestCaseData> SearchPredicates
+        {
+            get
+            {
+                Predicate<User> predicate = u => u.FirstName == "Alex";
+                yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = u => u.FirstName == "Jack";
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = u => u.Age > 12;
+                yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = u => (u.FirstName == "Alex") && (u.LastName == "Stone");
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = u => (u.FirstName == "Alex") && (u.Age == 10);
+                yield return new TestCaseData(predicate).Returns(1);
+
+                predicate = u => (u.LastName == "Stone") && (u.Age <= 20);
+                yield return new TestCaseData(predicate).Returns(2);
+
+                predicate = u => (u.FirstName == "Alex") && (u.LastName == "Stone") && (u.Age == 15);
+                yield return new TestCaseData(predicate).Returns(1);
+            }
+        }
+
+        public static IEnumerable<TestCaseData> UsersInRepository
+        {
+            get
+            {
+                foreach (var user in Users)
+                {
+                    yield return new TestCaseData(user);
+                }
+            }
+        }
 
         public static void AssertAreEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, Comparison<T> comparison)
         {
@@ -100,8 +193,8 @@ namespace UserStorageServices.Tests
         {
             return new User
             {
-                FirstName = "FirstName1",
-                LastName = "LastName1",
+                FirstName = "FirstName",
+                LastName = "LastName",
                 Age = 10,
             };
         }

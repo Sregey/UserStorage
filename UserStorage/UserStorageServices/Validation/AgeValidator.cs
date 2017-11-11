@@ -2,13 +2,16 @@ using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Validation
 {
-    internal class AgeValidator : IValidator<User>
+    internal class AgeValidator : UserPropertyValidator
     {
-        public void Validate(User user)
+        public override void Validate(User user)
         {
-            if (user.Age < 0)
+            foreach (var validationAttribute in GetValidateAttributesForProperty(nameof(user.Age)))
             {
-                throw new AgeExceedsLimitsException();
+                if (!validationAttribute.IsValid(user.Age))
+                {
+                    throw new AgeException(validationAttribute.ErrorMesage);
+                }
             }
         }
     }
