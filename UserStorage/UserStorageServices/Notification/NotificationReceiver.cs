@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageServices.Notification
 {
-    public class NotificationReceiver : INotificationReceiver
+    public class NotificationReceiver : MarshalByRefObject, INotificationReceiver
     {
         private readonly INotificationSerializer serializer;
 

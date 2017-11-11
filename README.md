@@ -460,13 +460,13 @@ Add new tests, run tests, review and commit.
 
 ## Step 8 - Application Domains
 
-- [ ] New branch "step8".
+- [x] New branch "step8".
 
-- [ ] Refactor infrastructure code: each instance of the user storage service class should be activated in a separate AppDomain. Each MASTER and SLAVE NODE should be created in separate application domain.
+- [x] Refactor infrastructure code: each instance of the user storage service class should be activated in a separate AppDomain. Each MASTER and SLAVE NODE should be created in separate application domain.
 
 ![UserServiceApplication with AppDomains](images/UserServiceWithAppDomains.png "UserServiceApplication with AppDomains")
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step8". Merge "step8" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step8". Merge "step8" into master. Publish.
 
 
 ## Step 9 - Configure

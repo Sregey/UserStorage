@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UserStorageServices.UserStorage
 {
-    public abstract class UserStorageServiceDecorator : IUserStorageService
+    public abstract class UserStorageServiceDecorator : MarshalByRefObject, IUserStorageService
     {
         protected readonly IUserStorageService UserStorageService;
 

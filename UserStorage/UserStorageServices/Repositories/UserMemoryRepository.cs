@@ -5,7 +5,7 @@ using UserStorageServices.Validation;
 
 namespace UserStorageServices.Repositories
 {
-    public class UserMemoryRepository : IUserRepository
+    public class UserMemoryRepository : MarshalByRefObject, IUserRepository
     {
         private readonly UserValidator userValidator;
 
@@ -71,7 +71,7 @@ namespace UserStorageServices.Repositories
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            return Users.Where((u) => predicate(u));
+            return Users.Where((u) => predicate(u)).ToList();
         }
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UserStorageServices.Notification
 {
@@ -7,9 +9,9 @@ namespace UserStorageServices.Notification
         private readonly INotificationReceiver[] receivers;
         private readonly INotificationSerializer serializer;
 
-        public CompositeNotificationSender(INotificationReceiver[] receivers)
+        public CompositeNotificationSender(IEnumerable<INotificationReceiver> receivers)
         {
-            this.receivers = receivers;
+            this.receivers = receivers.ToArray();
             serializer = new XmlNotificationSerializer();
         }
 

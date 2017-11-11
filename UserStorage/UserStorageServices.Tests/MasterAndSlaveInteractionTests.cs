@@ -1,5 +1,5 @@
+using System.Linq;
 using NUnit.Framework;
-using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
 
@@ -13,15 +13,14 @@ namespace UserStorageServices.Tests
         public void AddUsersToMaster_SameUsersAppearInSlaves()
         {
             // Arrange
-            INotificationReceiver receiver = new NotificationReceiver();
-
-            var slaveServices = new IUserStorageService[]
+            var slaveServices = new[]
             {
-                new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
-                new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
+                new UserStorageServiceSlave(new UserMemoryRepository()),
+                new UserStorageServiceSlave(new UserMemoryRepository()),
             };
-            
-            var masterService = new UserStorageServiceMaster(new UserMemoryRepository(), receiver);
+
+            var receivers = slaveServices.Select(s => s.Receiver);
+            var masterService = new UserStorageServiceMaster(new UserMemoryRepository(), receivers);
 
             // Act
             InitUserStoreageService(masterService);
@@ -37,15 +36,14 @@ namespace UserStorageServices.Tests
         public void RemoveUsersToMaster_SameUsersRemoveInSlaves()
         {
             // Arrange
-            INotificationReceiver receiver = new NotificationReceiver();
-
-            var slaveServices = new IUserStorageService[]
+            var slaveServices = new[]
             {
-                new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
-                new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
+                new UserStorageServiceSlave(new UserMemoryRepository()),
+                new UserStorageServiceSlave(new UserMemoryRepository()),
             };
 
-            var masterService = new UserStorageServiceMaster(new UserMemoryRepository(), receiver);
+            var receivers = slaveServices.Select(s => s.Receiver);
+            var masterService = new UserStorageServiceMaster(new UserMemoryRepository(), receivers);
             InitUserStoreageService(masterService);
 
             // Act

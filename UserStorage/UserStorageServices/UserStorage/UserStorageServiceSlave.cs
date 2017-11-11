@@ -8,16 +8,16 @@ namespace UserStorageServices.UserStorage
     {
         private const string NotSupportedMessage = "This service is slave";
 
-        private readonly INotificationReceiver notificationReceiver;
-
-        public UserStorageServiceSlave(IUserRepository userRepository, INotificationReceiver notificationReceiver)
+        public UserStorageServiceSlave(IUserRepository userRepository)
             : base(userRepository)
         {
-            this.notificationReceiver = notificationReceiver;
-            this.notificationReceiver.Received += NotificationReceived;
+            Receiver = new NotificationReceiver();
+            Receiver.Received += NotificationReceived;
         }
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.SlaveMode;
+
+        public INotificationReceiver Receiver { get; }
 
         public override void Add(User user)
         {
