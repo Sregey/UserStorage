@@ -2,9 +2,6 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
-using UserStorageServices.Notification;
-using UserStorageServices.Repositories;
-using UserStorageServices.UserStorage;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
 namespace UserStorageApp
@@ -15,25 +12,21 @@ namespace UserStorageApp
     {
         public static void Main(string[] args)
         {
-            // Loading configuration from the application configuration file. This configuration is not used yet.
             var serviceConfiguration = (ServiceConfiguration)ConfigurationManager.GetSection("serviceConfiguration");
 
             using (var host = new ServiceHost(MyDiagnostics.Create(serviceConfiguration)))
             {
                 host.SmartOpen();
 
-                INotificationReceiver receiver = new NotificationReceiver();
+                var clientDomain = AppDomain.CreateDomain("ClientDomain");
 
-                var slaveServices = new IUserStorageService[]
-                {
-                    new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
-                    new UserStorageServiceLog(new UserStorageServiceSlave(new UserMemoryRepository(), receiver)),
-                };
+                var clientType = typeof(ClientDomainAction);
+                var clientAction = (ClientDomainAction)clientDomain.CreateInstanceAndUnwrap(
+                    clientType.Assembly.FullName,
+                    clientType.FullName);
 
-                var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
-                var userRepositoryForMaster = new UserDiskRepository(repositoryFileName);
-                var storageService = new UserStorageServiceMaster(userRepositoryForMaster, receiver);
-                var client = new Client(new UserStorageServiceLog(storageService), userRepositoryForMaster);
+                clientAction.Run();
+                var client = clientAction.Client;
 
                 client.Run();
 

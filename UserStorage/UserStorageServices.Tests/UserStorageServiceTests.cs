@@ -85,7 +85,9 @@ namespace UserStorageServices.Tests
         public void Add_InvalidUser_ExceptionThrown(User user)
         {
             // Arrange
-            var userStorageService = new UserStorageServiceMaster(new UserMemoryRepository(), null);
+            var userStorageService = new UserStorageServiceMaster(
+                new UserMemoryRepository(),
+                Enumerable.Empty<INotificationReceiver>());
 
             // Act
             userStorageService.Add(user);
@@ -97,7 +99,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             var user = GetValidUser();
 
             // Act
@@ -111,9 +113,7 @@ namespace UserStorageServices.Tests
         public void Add_ValidUserToSlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(
-                new UserMemoryRepository(),
-                new NotificationReceiver());
+            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
             var user = GetValidUser();
 
             // Assert
@@ -126,7 +126,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
 
@@ -143,7 +143,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
             int oldUserCount = userStorageService.Count;
             var user = GetValidUser();
@@ -161,7 +161,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -172,9 +172,7 @@ namespace UserStorageServices.Tests
         public void Remove_SlaveService_ExceptionThrown()
         {
             // Arrange
-            var userStorageService = new UserStorageServiceSlave(
-                new UserMemoryRepository(),
-                new NotificationReceiver());
+            var userStorageService = new UserStorageServiceSlave(new UserMemoryRepository());
 
             // Act
             userStorageService.Remove((u) => true);
@@ -186,7 +184,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
 
             // Act
@@ -199,7 +197,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
             Predicate<User> predicate = (u) => u.FirstName == "NotExistingName";
 
@@ -216,7 +214,7 @@ namespace UserStorageServices.Tests
             // Arrange
             var userStorageService = new UserStorageServiceMaster(
                 new UserMemoryRepository(),
-                new NotificationReceiver());
+                Enumerable.Empty<INotificationReceiver>());
             InitUserStoreageService(userStorageService);
 
             // Act

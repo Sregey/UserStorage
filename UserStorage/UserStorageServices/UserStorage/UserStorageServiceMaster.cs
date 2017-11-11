@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.Validation;
@@ -12,10 +13,10 @@ namespace UserStorageServices.UserStorage
 
         private readonly INotificationSender notificationSender;
 
-        public UserStorageServiceMaster(IUserRepository userRepository, INotificationReceiver receiver)
+        public UserStorageServiceMaster(IUserRepository userRepository, IEnumerable<INotificationReceiver> receivers)
             : base(userRepository)
         {
-            notificationSender = new CompositeNotificationSender(new[] { receiver });
+            notificationSender = new CompositeNotificationSender(receivers);
 
             idGenerator = new IdGenerator(userRepository.LastId);
             userValidator = new UserValidator();

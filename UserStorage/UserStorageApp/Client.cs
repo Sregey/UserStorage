@@ -1,3 +1,4 @@
+using System;
 using UserStorageServices;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
@@ -7,7 +8,7 @@ namespace UserStorageApp
     /// <summary>
     /// Represents a client that uses an instance of the <see cref="UserStorageService"/>.
     /// </summary>
-    public class Client
+    public class Client : MarshalByRefObject
     {
         private readonly IUserStorageService userStorageService;
         private readonly IUserRepositoryManager userRepositoryManager;
