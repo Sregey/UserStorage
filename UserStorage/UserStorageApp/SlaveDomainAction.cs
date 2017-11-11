@@ -5,7 +5,7 @@ using UserStorageServices.UserStorage;
 
 namespace UserStorageApp
 {
-    class SlaveDomainAction : MarshalByRefObject
+    internal class SlaveDomainAction : MarshalByRefObject
     {
         public IUserStorageService SlaveService { get; private set; }
 

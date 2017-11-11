@@ -2,7 +2,7 @@ using System;
 
 namespace UserStorageApp
 {
-    class ClientDomainAction : MarshalByRefObject
+    internal class ClientDomainAction : MarshalByRefObject
     {
         public Client Client { get; private set; }
 

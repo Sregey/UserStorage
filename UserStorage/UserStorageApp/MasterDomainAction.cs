@@ -6,7 +6,7 @@ using UserStorageServices.UserStorage;
 
 namespace UserStorageApp
 {
-    class MasterDomainAction : MarshalByRefObject
+    internal class MasterDomainAction : MarshalByRefObject
     {
         private SlaveDomainAction[] slaveActions;
 

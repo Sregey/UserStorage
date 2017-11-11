@@ -1,6 +1,5 @@
 using System.Linq;
 using NUnit.Framework;
-using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
 
@@ -14,7 +13,7 @@ namespace UserStorageServices.Tests
         public void AddUsersToMaster_SameUsersAppearInSlaves()
         {
             // Arrange
-            var slaveServices = new []
+            var slaveServices = new[]
             {
                 new UserStorageServiceSlave(new UserMemoryRepository()),
                 new UserStorageServiceSlave(new UserMemoryRepository()),
