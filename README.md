@@ -471,9 +471,9 @@ Add new tests, run tests, review and commit.
 
 ## Step 9 - Configure
 
-- [ ] New branch "step9".
+- [x] New branch "step9".
 
-- [ ] Use an application configuration file to setup services configuration.
+- [x] Use an application configuration file to setup services configuration.
   * There is a [custom configuration sections](https://habrahabr.ru/post/128517/) in App.config that has "serviceConfiguration" name. Use ConfigurationManager.GetSection method to get configuration as an object.
   * There is no support for network communication. Ignore host and port settings.
   * Hardcode any custom behavior (if name=="master-us" or if type="UserStorageMaster") if necessary.
@@ -482,7 +482,7 @@ Add new tests, run tests, review and commit.
 var serviceConfiguration = (ServiceConfiguration)System.Configuration.ConfigurationManager.GetSection("serviceConfiguration");
 ```
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step9". Merge "step9" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step9". Merge "step9" into master. Publish.
 
 
 ## Step 10 - Reflect
