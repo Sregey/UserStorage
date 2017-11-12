@@ -1,6 +1,6 @@
 namespace UserStorageServices.Validation.Attributes
 {
-    sealed class ValidateNotNullOrWhiteSpaceAttribute : ValidationAttribute
+    internal sealed class ValidateNotNullOrWhiteSpaceAttribute : ValidationAttribute
     {
         public ValidateNotNullOrWhiteSpaceAttribute()
         {

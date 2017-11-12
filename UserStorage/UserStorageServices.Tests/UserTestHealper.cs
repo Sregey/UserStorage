@@ -57,7 +57,7 @@ namespace UserStorageServices.Tests
                 yield return new TestCaseData(user).Throws(typeof(FirstNameException));
 
                 user = GetValidUser();
-                user.FirstName = new String('x', 21);
+                user.FirstName = new string('x', 21);
                 yield return new TestCaseData(user).Throws(typeof(FirstNameException));
 
                 user = GetValidUser();
@@ -73,7 +73,7 @@ namespace UserStorageServices.Tests
                 yield return new TestCaseData(user).Throws(typeof(LastNameException));
 
                 user = GetValidUser();
-                user.LastName = new String('x', 26);
+                user.LastName = new string('x', 26);
                 yield return new TestCaseData(user).Throws(typeof(LastNameException));
 
                 user = GetValidUser();

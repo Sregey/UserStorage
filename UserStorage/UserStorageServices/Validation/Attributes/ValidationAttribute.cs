@@ -3,7 +3,7 @@ using System;
 namespace UserStorageServices.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    abstract class ValidationAttribute : Attribute
+    internal abstract class ValidationAttribute : Attribute
     {
         protected ValidationAttribute()
         {

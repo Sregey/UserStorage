@@ -4,7 +4,7 @@ using UserStorageServices.Validation.Attributes;
 
 namespace UserStorageServices.Validation
 {
-    abstract class UserPropertyValidator : IValidator<User>
+    internal abstract class UserPropertyValidator : IValidator<User>
     {
         public abstract void Validate(User item);
 

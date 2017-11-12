@@ -2,15 +2,15 @@ using System.Text.RegularExpressions;
 
 namespace UserStorageServices.Validation.Attributes
 {
-    sealed class ValidateRegexAttribute : ValidationAttribute
+    internal sealed class ValidateRegexAttribute : ValidationAttribute
     {
-        public string Pattern { get; }
-
         public ValidateRegexAttribute(string pattern)
         {
             Pattern = pattern;
             ErrorMesage = "Property not match pattern";
         }
+
+        public string Pattern { get; }
 
         public override bool IsValid(object value)
         {
