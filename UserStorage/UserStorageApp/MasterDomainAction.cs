@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using ServiceConfigurationSection;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
@@ -26,8 +27,17 @@ namespace UserStorageApp
             var repositoryFileName = ConfigurationManager.AppSettings["UserMemoryCacheWithStateFileName"];
             var repository = new UserDiskRepository(repositoryFileName);
             RepositoryManager = repository;
-            
-            var storageService = new UserStorageServiceMaster(repository, slaveActions.Select(s => s.Receiver));
+
+            Assembly assembly = Assembly.Load("UserStorageServices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f46a87b3d9a80705");
+
+            var masterServiceType = assembly.ExportedTypes
+                .Where(t => t.GetCustomAttribute<MyApplicationServiceAttribute>() != null)
+                .First(t => t.GetCustomAttribute<MyApplicationServiceAttribute>().ServiceMode == "UserStorageMaster");
+
+            var storageService = (IUserStorageService)Activator.CreateInstance(
+                masterServiceType, 
+                repository, 
+                slaveActions.Select(s => s.Receiver));
             MasterService = new UserStorageServiceLog(storageService);
         }
 

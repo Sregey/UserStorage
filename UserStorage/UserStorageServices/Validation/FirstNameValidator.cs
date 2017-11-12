@@ -2,13 +2,16 @@ using UserStorageServices.Exceptions;
 
 namespace UserStorageServices.Validation
 {
-    internal class FirstNameValidator : IValidator<User>
+    internal class FirstNameValidator : UserPropertyValidator
     {
-        public void Validate(User user)
+        public override void Validate(User user)
         {
-            if (string.IsNullOrWhiteSpace(user.FirstName))
+            foreach (var validationAttribute in GetValidateAttributesForProperty(nameof(user.FirstName)))
             {
-                throw new FirstNameIsNullOrEmptyException();
+                if (!validationAttribute.IsValid(user.FirstName))
+                {
+                    throw new FirstNameException(validationAttribute.ErrorMesage);
+                }
             }
         }
     }

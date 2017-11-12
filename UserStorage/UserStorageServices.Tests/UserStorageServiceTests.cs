@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using UserStorageServices.Exceptions;
 using UserStorageServices.Notification;
 using UserStorageServices.Repositories;
 using UserStorageServices.UserStorage;
@@ -13,73 +12,11 @@ namespace UserStorageServices.Tests
 
     internal class UserStorageServiceTests
     {
-        public IEnumerable<TestCaseData> InvalidUsers
-        {
-            get
-            {
-                User user;
+        public static IEnumerable<TestCaseData> InvalidUsers => UserTestHealper.InvalidUsers;
 
-                yield return new TestCaseData(null).Throws(typeof(ArgumentNullException));
+        public IEnumerable<TestCaseData> UsersInStorage => UserTestHealper.UsersInRepository;
 
-                user = GetValidUser();
-                user.FirstName = null;
-                yield return new TestCaseData(user).Throws(typeof(FirstNameIsNullOrEmptyException));
-
-                user = GetValidUser();
-                user.FirstName = "  ";
-                yield return new TestCaseData(user).Throws(typeof(FirstNameIsNullOrEmptyException));
-
-                user = GetValidUser();
-                user.LastName = null;
-                yield return new TestCaseData(user).Throws(typeof(LastNameIsNullOrEmptyException));
-
-                user = GetValidUser();
-                user.LastName = "   ";
-                yield return new TestCaseData(user).Throws(typeof(LastNameIsNullOrEmptyException));
-
-                user = GetValidUser();
-                user.Age = -1;
-                yield return new TestCaseData(user).Throws(typeof(AgeExceedsLimitsException));
-            }
-        }
-
-        public IEnumerable<TestCaseData> UsersInStorage
-        {
-            get
-            {
-                foreach (var user in Users)
-                {
-                    yield return new TestCaseData(user);
-                }
-            }
-        }
-
-        public IEnumerable<TestCaseData> SearchPredicates
-        {
-            get
-            {
-                Predicate<User> predicate = u => u.FirstName == "FirstName1";
-                yield return new TestCaseData(predicate).Returns(2);
-
-                predicate = u => u.FirstName == "FirstName2";
-                yield return new TestCaseData(predicate).Returns(1);
-
-                predicate = u => u.Age > 12;
-                yield return new TestCaseData(predicate).Returns(2);
-
-                predicate = u => (u.FirstName == "FirstName1") && (u.LastName == "LastName2");
-                yield return new TestCaseData(predicate).Returns(1);
-
-                predicate = u => (u.FirstName == "FirstName1") && (u.Age == 10);
-                yield return new TestCaseData(predicate).Returns(1);
-
-                predicate = u => (u.LastName == "LastName2") && (u.Age <= 20);
-                yield return new TestCaseData(predicate).Returns(2);
-
-                predicate = u => (u.FirstName == "FirstName1") && (u.LastName == "LastName2") && (u.Age == 15);
-                yield return new TestCaseData(predicate).Returns(1);
-            }
-        }
+        public IEnumerable<TestCaseData> SearchPredicates => UserTestHealper.SearchPredicates;
 
         [Test, TestCaseSource(nameof(InvalidUsers))]
         public void Add_InvalidUser_ExceptionThrown(User user)

@@ -17,11 +17,11 @@ namespace UserStorageServices.Tests
             get
             {
                 yield return new TestCaseData(
-                    new BinaryUserSerializationStrategy(), 
+                    new BinaryUserSerializationStrategy(),
                     expectedBinSerializePath);
 
                 yield return new TestCaseData(
-                    new XmlUserSerializationStrategy(), 
+                    new XmlUserSerializationStrategy(),
                     expectedXmlSerializePath);
             }
         }

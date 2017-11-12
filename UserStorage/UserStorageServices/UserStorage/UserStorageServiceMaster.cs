@@ -6,6 +6,7 @@ using UserStorageServices.Validation;
 
 namespace UserStorageServices.UserStorage
 {
+    [MyApplicationService("UserStorageMaster")]
     public class UserStorageServiceMaster : UserStorageServiceBase
     {
         private readonly IIdGenerator idGenerator;

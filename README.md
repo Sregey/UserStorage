@@ -487,9 +487,9 @@ var serviceConfiguration = (ServiceConfiguration)System.Configuration.Configurat
 
 ## Step 10 - Reflect
 
-- [ ] New branch "step10".
+- [x] New branch "step10".
 
-- [ ] Refactor validation: create [new attribute classes](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/attributes) and [use reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/accessing-attributes-by-using-reflection) to validate input from the client like in this example:
+- [x] Refactor validation: create [new attribute classes](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/attributes) and [use reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/accessing-attributes-by-using-reflection) to validate input from the client like in this example:
 
 ```cs
 class User
@@ -511,7 +511,7 @@ class User
 
 Refactor existed tests and add new test, run tests, commit.
 
-- [ ] Create a new attribute and apply it to MASTER NODE and SLAVE NODE classes.
+- [x] Create a new attribute and apply it to MASTER NODE and SLAVE NODE classes.
 
 ```cs
 [MyApplicationService("UserStorageMaster")]
@@ -525,9 +525,9 @@ class UserStorageServiceSlave
 
 Run tests, review, commit.
 
-- [ ] When creating a new service instances use this attributes to find a service type in _UserStorageServices_ assembly that matches a value of the _type_ attribute in _serviceInstance_ node in App.config. Use [Activator class](https://msdn.microsoft.com/en-us/library/system.activator(v=vs.110).aspx) to create a new service instance. Hardcode is allowed here.
+- [x] When creating a new service instances use this attributes to find a service type in _UserStorageServices_ assembly that matches a value of the _type_ attribute in _serviceInstance_ node in App.config. Use [Activator class](https://msdn.microsoft.com/en-us/library/system.activator(v=vs.110).aspx) to create a new service instance. Hardcode is allowed here.
 
-- [ ] Run StyleCop, fix issues, commit. Mark, commit. Publish "step10". Merge "step10" into master. Publish.
+- [x] Run StyleCop, fix issues, commit. Mark, commit. Publish "step10". Merge "step10" into master. Publish.
 
 
 ## Step 11 - Synchronize

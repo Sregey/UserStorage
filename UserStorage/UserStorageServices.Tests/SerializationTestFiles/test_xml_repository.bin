@@ -2,22 +2,22 @@
 <DataSetForUserRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Users>
     <User>
-      <Id>00000000-0000-0000-0000-000000000001</Id>
-      <FirstName>FirstName1</FirstName>
-      <LastName>LastName1</LastName>
+      <FirstName>Alex</FirstName>
+      <LastName>Black</LastName>
       <Age>10</Age>
+      <Id>00000000-0000-0000-0000-000000000001</Id>
     </User>
     <User>
-      <Id>00000000-0000-0000-0000-000000000002</Id>
-      <FirstName>FirstName2</FirstName>
-      <LastName>LastName2</LastName>
+      <FirstName>Jack</FirstName>
+      <LastName>Stone</LastName>
       <Age>20</Age>
+      <Id>00000000-0000-0000-0000-000000000002</Id>
     </User>
     <User>
-      <Id>00000000-0000-0000-0000-000000000003</Id>
-      <FirstName>FirstName1</FirstName>
-      <LastName>LastName2</LastName>
+      <FirstName>Alex</FirstName>
+      <LastName>Stone</LastName>
       <Age>15</Age>
+      <Id>00000000-0000-0000-0000-000000000003</Id>
     </User>
   </Users>
   <LastId>00000000-0000-0000-0000-000000000003</LastId>
