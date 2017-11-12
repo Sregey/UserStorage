@@ -3,7 +3,7 @@ using System;
 namespace UserStorageServices.UserStorage
 {
     [AttributeUsage(AttributeTargets.Class)]
-    sealed class MyApplicationServiceAttribute : Attribute
+    public sealed class MyApplicationServiceAttribute : Attribute
     {
         public string ServiceMode { get; }
 
